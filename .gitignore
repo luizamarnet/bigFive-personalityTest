@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pkl
+*.joblib
+
+# Jupyter Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Virtual environments
+env/
+venv/
+
+# VS Code
+.vscode/
+
+# Dados brutos grandes (caso não queira subir o .csv)
+*.csv
+
+# Sistema
+.DS_Store
+Thumbs.db
