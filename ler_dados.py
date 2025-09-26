@@ -4,7 +4,7 @@ import pandas as pd
 def ler_dados(caminho_arquivo):
     # Carregue os dados
     df = pd.read_csv(caminho_arquivo, sep="\t", index_col=False) 
-
+    
 
     '''print("Variáveis:")
     print(", ".join(df.columns))
@@ -26,8 +26,10 @@ def ler_dados(caminho_arquivo):
     df=df[df["IPC"] < 2]
     print("Num respostas deletadas por virem do mesmo IP: ", aux-len(df))
     # Remova valores ausentes
+    '''print(df[df.isna().any(axis=1)])'''
     aux=len(df)
     df = df.dropna()
+    df = df[~df.isin(["NONE"]).any(axis=1)]
     print("Num respostas deletadas por conter NaN: ", aux-len(df))
 
     # Mostre colunas relevantes (as 50 questões do IPIP)

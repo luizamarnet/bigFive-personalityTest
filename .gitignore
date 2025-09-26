@@ -20,3 +20,12 @@ venv/
 # Sistema
 .DS_Store
 Thumbs.db
+
+
+# Ignorar arquivos de figuras
+*.png
+*.jpg
+*.jpeg
+*.pdf
+*.svg
+*.eps
