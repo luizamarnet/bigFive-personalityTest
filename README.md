@@ -1,4 +1,4 @@
-# Big Five Personality Test – Factor Analysis  <span style="font-size: small;">[[Leia em Português]](README_pt.md)</span>
+# Big Five Personality Test – Factor Analysis  <sub>[[Leia em Português]](README_pt.md)</sub>
 
 
 This project analyses the **Big Five Personality Traits** using the **factor analysis** technique. 
