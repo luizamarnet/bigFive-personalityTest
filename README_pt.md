@@ -1,1 +1,1 @@
-# 🚧  <span style="font-size: small;">[[Read in English]](README.md)</span>
+# 🚧  <sub>[[Read in English]](README.md)</sub>

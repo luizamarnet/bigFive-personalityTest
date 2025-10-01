@@ -11,6 +11,7 @@ This project analyses the **Big Five Personality Traits** using the **factor ana
 The dataset used for this project comes from:
 
 - **[https://openpsychometrics.org/_rawdata/](https://openpsychometrics.org/_rawdata/)**, and Contains responses to the Big Five Inventory items.
+- Go to the previous link and download the file: **IPIP-FFM-data-8Nov2018.zip**
 
 ---
 
