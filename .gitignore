@@ -29,3 +29,17 @@ Thumbs.db
 *.pdf
 *.svg
 *.eps
+*.pkl
+
+# Ignora arquivos por tipo
+
+# Ignora arquivos específico
+.firebaserc
+firebase.json
+
+# Ignorar pastas
+public/*
+functions/*
+.firebase/*
+.github/*
+bigfive-site/*
