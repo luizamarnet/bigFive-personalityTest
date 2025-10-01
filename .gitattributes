@@ -1,0 +1,10 @@
+# Force Python detection
+*.py linguist-detectable=true
+
+# Ignore frontend files for stats
+*.html linguist-detectable=false
+*.css linguist-detectable=false
+*.js linguist-detectable=false
+
+# Treat notebooks as Python
+*.ipynb linguist-language=Python
