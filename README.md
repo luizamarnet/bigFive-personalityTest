@@ -1,8 +1,16 @@
+<!-- Abas clicáveis para README -->
+<div style="display: flex; gap: 10px; margin-bottom: 20px;">
+  <button onclick="document.getElementById('en').style.display='block'; document.getElementById('pt').style.display='none';" 
+          style="padding: 5px 10px; cursor: pointer;">English</button>
+  <button onclick="document.getElementById('pt').style.display='block'; document.getElementById('en').style.display='none';" 
+          style="padding: 5px 10px; cursor: pointer;">Português</button>
+</div>
+
+<!-- Conteúdo em inglês -->
+<div id="en" style="display: block;">
 # Big Five Personality Test – Factor Analysis  <sub>[[Leia em Português]](README_pt.md)</sub>
 
-
 This project analyses the **Big Five Personality Traits** using the **factor analysis** technique. 
-
 
 ---
 
@@ -18,11 +26,11 @@ The dataset used for this project comes from:
 
 ## Methodology
 
-- **Data Cleaning**: The dataset was cleaned by removing incomplete responses, and responses from users that answered much slower or extremly faster compared to others.
-- **Correlation Matrix**: R was used to generate the correlation matrix since Python's standard functions only calculate Pearson correlations. The Pearson correlations is not ideal for applying to ordinal data. Using R allowed us to compute the polychoric correlation matrix, which is more appropriate for Likert-scale questionnaire data, which is an example of ordinal data.
+- **Data Cleaning**: The dataset was cleaned by removing incomplete responses, and responses from users that answered much slower or extremely faster compared to others.
+- **Correlation Matrix**: R was used to generate the correlation matrix since Python's standard functions only calculate Pearson correlations. The Pearson correlation is not ideal for ordinal data. Using R allowed us to compute the polychoric correlation matrix, more appropriate for Likert-scale questionnaire data.
 - **Factor Analysis**: Applied to identify underlying personality factors corresponding to the Big Five dimensions.
 - **Genetic Algorithm (GA)**: A simple GA was used for normalizing each personality factor between 0 and 1.
-' **K-means**: Finally, aswers to the dataset used were clusterized for trying to find main groups with similar personalities. 
+- **K-means**: Answers were clustered to find main groups with similar personalities. 
 
 ---
 
@@ -32,18 +40,3 @@ For training your own model using the provided dataset:
 
 ```python
 python criara_modelo.py
-```
-
-Note: The files and code comments are in Portuguese for personal reasons and planned projects.
-
-
-## Results
- 
- As a result for a single answer to the questionnaire, the user receives scores for each one of the personality traits, ranging from 0 (less proiminent) to 1.
-
-
-## Test Our Model
-
- If you want to test our trainned model without any installation, you can answer the questionnaire on our web app: [https://testbig5.web.app/](https://testbig5.web.app/en/)
-
- The code and instructions for criating a similar web app will be provided in the future and another repository.
