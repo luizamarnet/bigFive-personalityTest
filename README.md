@@ -37,9 +37,67 @@ python criara_modelo.py
 Note: The files and code comments are in Portuguese for personal reasons and planned projects.
 
 
-## Results
- 
- As a result for a single answer to the questionnaire, the user receives scores for each one of the personality traits, ranging from 0 (less proiminent) to 1.
+
+## Infer Your Results Locally
+
+You can now use the inferencia.py script to infer personality trait scores from questionnaire answers. It supports both .txt and .json input formats.
+
+### Usage
+```python
+python inferencia.py <file> [lang]
+```
+
+- <file>: Path to your .txt or .json answers file.
+- [lang] (optional): en for English (default) or pt for Portuguese.
+
+
+### Questionnaire Templates and Input Formats Examples
+
+We provide some templates to use and submit your answers.
+- questionnaire_answers.txt: where you should change the null values by your answers;
+- questionnaire_answers_test.txt: is a file with examples of how to fill up the questionnaire;
+- questionnaire_answers.json: where you should change the null values by your answers;
+- questionnaire_answers_test.json: is a file with examples of how to fill up the questionnaire;
+- The files named respostas_questionario.* are the correspondent Portuguese versions. 
+
+
+The questions/lines should be answered with integers from 1 (Strongly Disagree) to 5 (Strongly Agree).
+Below are some examples of the formats you should use to answer.
+
+- questionnaire_answers_test.txt:
+```txt
+Rate each statement from 1 to 5, where 1 = Strongly Disagree and 5 = Strongly Agree.
+EXT1 - I am the life of the party: 3
+EXT2 - I don't talk a lot: 2
+...
+OPN10 - I am full of ideas: 5
+```
+
+- questionnaire_answers_test.json: 
+```json
+[
+  {"id": "EXT1", "text": "I am the life of the party.", "value": 3},
+  {"id": "EXT2", "text": "I don't talk a lot.", "value": 2},
+  ...
+  {"id": "OPN10", "text": "I am full of ideas.", "value": 5}
+]
+```
+
+### Example Command
+
+```
+python
+python inferencia.py questionnaire_answers_test.json en
+```
+
+The script will:
+
+1. Validate your answers (ensure numeric values 1–5).
+
+2. Apply the trained Factor Analysis model.
+
+3. Display results in the terminal and generate a radar chart.  
+  3.1. The scores for each one of the personality traits range from 0 (less prominent) to 1 (more prominent).
 
 
 ## Test Our Model
