@@ -1,0 +1,51 @@
+Avalie cada afirmação de 1 a 5, onde 1 = Discordo totalmente e 5 = Concordo totalmente.
+EXT1 - Sou o centro das atenções em festas: 1
+EXT2 - Não falo muito: 1
+EXT3 - Sinto-me à vontade perto das pessoas: 1
+EXT4 - Fico mais nos bastidores: 1
+EXT5 - Início conversas facilmente: 1
+EXT6 - Tenho pouco a dizer: 1
+EXT7 - Converso com muitas pessoas diferentes em festas: 1
+EXT8 - Não gosto de chamar atenção para mim: 1
+EXT9 - Não me importo de ser o centro das atenções: 1
+EXT10 - Sou reservado(a) com estranhos: 1
+EST1 - Fico facilmente estressado(a): 1
+EST2 - Estou relaxado(a) na maior parte do tempo: 1
+EST3 - Preocupo-me com as coisas: 1
+EST4 - Raramente me sinto triste: 1
+EST5 - Sou facilmente perturbado(a): 1
+EST6 - Fico irritado(a) facilmente: 1
+EST7 - Mudo meu humor com frequência: 1
+EST8 - Tenho mudanças de humor frequentes: 1
+EST9 - Irrito-me com facilidade: 1
+EST10 - Frequentemente me sinto triste: 1
+AGR1 - Tenho pouca consideração pelos outros: 1
+AGR2 - Tenho interesse pelas pessoas: 1
+AGR3 - Insulto as pessoas: 1
+AGR4 - Sinto empatia pelos sentimentos dos outros: 1
+AGR5 - Não me interesso pelos problemas dos outros: 1
+AGR6 - Tenho um coração mole: 1
+AGR7 - Não me interesso realmente pelos outros: 1
+AGR8 - Dedico tempo aos outros: 1
+AGR9 - Sinto as emoções dos outros: 1
+AGR10 - Faço as pessoas se sentirem à vontade: 1
+CSN1 - Estou sempre preparado(a): 1
+CSN2 - Deixo meus pertences espalhados: 1
+CSN3 - Presto atenção aos detalhes: 1
+CSN4 - Faço bagunça: 1
+CSN5 - Faço as tarefas imediatamente: 1
+CSN6 - Esqueço de colocar as coisas de volta no lugar: 1
+CSN7 - Gosto de ordem: 1
+CSN8 - Evito minhas responsabilidades: 1
+CSN9 - Sigo um cronograma: 1
+CSN10 - Sou meticuloso(a) no meu trabalho: 1
+OPN1 - Tenho um vocabulário rico: 1
+OPN2 - Tenho dificuldade em entender ideias abstratas: 1
+OPN3 - Tenho uma imaginação vívida: 1
+OPN4 - Não me interesso por ideias abstratas: 1
+OPN5 - Tenho ideias excelentes: 1
+OPN6 - Não tenho uma boa imaginação: 1
+OPN7 - Compreendo as coisas rapidamente: 1
+OPN8 - Uso palavras difíceis: 1
+OPN9 - Passo tempo refletindo sobre as coisas: 1
+OPN10 - Estou cheio(a) de ideias: 1
