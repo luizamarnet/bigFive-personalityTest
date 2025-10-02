@@ -47,7 +47,7 @@ You can now use the inferencia.py script to infer personality trait scores from 
 python inferencia.py <file> [lang]
 ```
 
-- <file>: Path to your .txt or .json answers file.
+- `<file>`: Path to your .txt or .json answers file.
 - [lang] (optional): en for English (default) or pt for Portuguese.
 
 
