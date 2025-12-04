@@ -104,4 +104,4 @@ The script will:
 
  If you want to test our trainned model without any installation, you can answer the questionnaire on our web app: [https://testbig5.web.app/](https://testbig5.web.app/en/)
 
- The code and instructions for criating a similar web app will be provided in the future in another repository.
+The code and instructions for creating a similar web application will be made available in another repository at a later date.
