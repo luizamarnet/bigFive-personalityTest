@@ -1,5 +1,5 @@
 # Teste de Personalidade Big Five – Análise Fatorial  <sub>[[Read in English]](README.md)</sub>
-[🚧 Em Construção 🚧]
+[🚧 README Em Construção 🚧]
 
 Este projeto analisa os **Cinco Grandes Traços de Personalidade (Big Five Personality Traits)** utilizando a técnica de **análise fatorial**.  
 
