@@ -1,0 +1,60 @@
+"""Data loading utilities."""
+
+from pathlib import Path
+import pandas as pd
+
+
+def load_data(data_path: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """
+    Load raw data from CSV and return the full DataFrame and the 50 personality items.
+
+    Parameters
+    ----------
+    data_path : Path
+        Path to the raw data file.
+
+    Returns
+    -------
+    tuple[pd.DataFrame, pd.DataFrame]
+        (full_df, items_df) where items_df contains only the 50 personality columns.
+    """
+    df = pd.read_csv(data_path, sep="\t", index_col=False)
+
+    # Remove responses from same IP
+    ipc_counts = df["IPC"].value_counts()
+    for ipc_value, count in ipc_counts.items():
+        if ipc_value > 1 and count % ipc_value != 0:
+            print(f"❌ IPC = {ipc_value} appears {count} times (not a multiple)")
+
+    print(ipc_counts)
+    print("Number of responses: ", len(df))
+    aux = len(df)
+    df = df[df["IPC"] < 2]
+    print("Responses removed due to same IP: ", aux - len(df))
+
+    # Remove missing values
+    aux = len(df)
+    df = df.dropna()
+    df = df[~df.isin(["NONE"]).any(axis=1)]
+    print("Responses removed due to NaN: ", aux - len(df))
+
+    # Select the 50 personality items
+    colunas = [
+        col for col in df.columns
+        if (
+            col.startswith("EXT")
+            or col.startswith("EST")
+            or col.startswith("AGR")
+            or col.startswith("CSN")
+            or col.startswith("OPN")
+        )
+        and not col.endswith("_E")
+    ]
+    df = df[df[colunas].isin([1, 2, 3, 4, 5]).all(axis=1)]
+    df_itens = df[colunas]
+
+    print("Number of variables: ", len(df.columns))
+    print("Number of selected variables: ", len(df_itens.columns))
+    print("Number of responses after cleaning: ", len(df_itens))
+
+    return df, df_itens

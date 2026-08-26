@@ -31,7 +31,7 @@ O conjunto de dados usado neste projeto vem de:
 Para treinar o seu próprio modelo usando o conjunto de dados fornecido:  
 
 ```python
-python criara_modelo.py
+python train_model.py
 ```
 
 Observação: Os arquivos e comentários do código estão em português por motivos pessoais e projetos planejados.

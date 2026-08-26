@@ -31,7 +31,7 @@ The dataset used for this project comes from:
 For training your own model using the provided dataset:
 
 ```python
-python criara_modelo.py
+python train_model.py
 ```
 
 Note: The files and code comments are in Portuguese for personal reasons and planned projects.
