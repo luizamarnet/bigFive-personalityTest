@@ -5,9 +5,8 @@ import logging
 import joblib
 import numpy as np
 import pandas as pd
-from pathlib import Path
 
-from config import (
+from src.config import (
     DATA_FILE_PATH,
     MODEL_PATH,
     R_HOME,
@@ -15,11 +14,11 @@ from config import (
     FATOR_IQR,
     USAR_LIMITE_SUPERIOR,
 )
-from data_loader import load_data
-from data_cleaner import clean_by_response_time
-from correlation import polychoric_correlation
-from factor_analysis import perform_factor_analysis
-from clustering import cluster_and_visualize
+from src.data.data_loader import load_data
+from src.data.data_cleaner import clean_by_response_time
+from src.data.correlation import polychoric_correlation
+from src.models.FactorAnalyzer import perform_factor_analysis
+from src.models.clustering import cluster_and_visualize
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -74,9 +73,6 @@ def compute_normalization_bounds(fa_model, df_items: pd.DataFrame) -> tuple[np.n
     for i in range(5):
         factor_min[i] = aux_df_trans[i, i]
 
-    logger.info(f"Factor max values: {factor_max}")
-    logger.info(f"Factor min values: {factor_min}")
-
     return factor_min, factor_max
 
 
@@ -84,9 +80,9 @@ def save_model(fa_model, factor_names, factor_min, factor_max) -> None:
     """Save the trained model to disk."""
     model_to_save = {
         "model": fa_model,
-        "nome_fatores": factor_names,
-        "fatores_minimos": factor_min,
-        "fatores_maximos": factor_max,
+        "factor_names": factor_names,
+        "factor_min": factor_min,
+        "factor_max": factor_max,
     }
     joblib.dump(model_to_save, MODEL_PATH)
     logger.info(f"Model saved to {MODEL_PATH}")
@@ -116,6 +112,8 @@ def main() -> None:
     df, df_items = load_and_clean_data()
     pcor_matrix = compute_correlation(df_items)
     fa_model, factor_names = fit_factor_analysis(pcor_matrix, df_items.columns)
+    fa_model.mean_ = 0#mean_.values
+    fa_model.std_ = 1#std_.values
 
     factor_min, factor_max = compute_normalization_bounds(fa_model, df_items)
 

@@ -4,8 +4,8 @@ from pathlib import Path
 
 # Paths
 DATA_FILE_PATH = Path("dataset-IPIP-FFM-data-8Nov2018") / "data-final.csv"
-MODEL_PATH = Path("modelo_factoranalyzer.pkl")
-KMEANS_MODEL_PATH = Path("modelo_kmeans.pkl")
+MODEL_PATH = Path("./models/modelo_factoranalyzer.pkl")
+KMEANS_MODEL_PATH = Path("./models/modelo_kmeans.pkl")
 
 # Data cleaning parameters
 TEMPO_CURTO = 2  # seconds

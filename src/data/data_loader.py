@@ -57,6 +57,12 @@ def load_data(data_path: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
         and not col.endswith("_E")
     ]
     df = df[df[columns].isin([1, 2, 3, 4, 5]).all(axis=1)]
+    if df.empty:
+        raise ValueError(
+            "The dataset has no rows with valid data. "
+            "The data must contain integers with values 1, 2, 3, 4, or 5."
+        )
+        
     df_items = df[columns]
 
     logger.info(f"Number of variables: {len(df.columns)}")

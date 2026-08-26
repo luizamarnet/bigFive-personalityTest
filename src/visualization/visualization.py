@@ -3,7 +3,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import plotly.graph_objects as go
+import logging
 
+logger = logging.getLogger(__name__)
 
 def plot_scree(eigenvalues: np.ndarray) -> None:
     """Plot scree plot."""
@@ -61,7 +63,7 @@ def plot_boxplot(
     plt.xticks(rotation=90)
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig("boxplot_tempos_bigfive.png", dpi=300, bbox_inches="tight")
+    plt.savefig("./results/boxplot_tempos_bigfive.png", dpi=300, bbox_inches="tight")
     plt.show()
 
 
@@ -108,8 +110,8 @@ def plot_radar_interactive(centroids: np.ndarray, factor_names: list[str]) -> No
     )
 
     fig.show()
-    fig.write_html("perfis_clusters.html", include_plotlyjs=True)
-    print("Interactive radar saved to: perfis_clusters.html")
+    fig.write_html("./results/perfis_clusters.html", include_plotlyjs=True)
+    logger.info("Interactive radar saved to: ./results/perfis_clusters.html")
 
 
 def plot_radar_matplotlib(results: dict, lang: str = "en") -> None:

@@ -1,8 +1,8 @@
 """Data cleaning based on response time."""
 
 import pandas as pd
-from config import TEMPO_CURTO, FATOR_IQR, USAR_LIMITE_SUPERIOR
-from visualization import plot_boxplot
+from src.config import TEMPO_CURTO, FATOR_IQR, USAR_LIMITE_SUPERIOR
+from src.visualization.visualization import plot_boxplot
 
 
 def clean_by_response_time(

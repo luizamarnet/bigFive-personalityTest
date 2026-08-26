@@ -21,7 +21,6 @@ O conjunto de dados usado neste projeto vem de:
 - **Limpeza dos Dados**: O conjunto de dados foi limpo removendo respostas incompletas, além de respostas de usuários que responderam muito mais devagar ou extremamente mais rápido que os demais.  
 - **Matriz de Correlação**: O R foi utilizado para gerar a matriz de correlação, já que as funções padrão do Python só calculam correlações de Pearson. A correlação de Pearson não é ideal para dados ordinais. Com o R, foi possível calcular a matriz de correlação policórica, mais apropriada para questionários em escala Likert, que são exemplos de dados ordinais.  
 - **Análise Fatorial**: Aplicada para identificar fatores de personalidade subjacentes que correspondem às dimensões do Big Five.  
-- **Algoritmo Genético (AG)**: Um AG simples foi usado para normalizar cada fator de personalidade entre 0 e 1.  
 - **K-means**: Por fim, as respostas do conjunto de dados foram clusterizadas para tentar identificar grupos principais com personalidades semelhantes.  
 
 ---
@@ -31,7 +30,7 @@ O conjunto de dados usado neste projeto vem de:
 Para treinar o seu próprio modelo usando o conjunto de dados fornecido:  
 
 ```python
-python train_model.py
+python run_training.py
 ```
 
 Observação: Os arquivos e comentários do código estão em português por motivos pessoais e projetos planejados.
@@ -43,7 +42,7 @@ Agora você pode usar o script inferencia.py para inferir os escores dos traços
 ### Uso
 
 ```python
-python inferencia.py <arquivo> [idioma]
+python run_inference.py <arquivo> [idioma]
 ```
 
 - `<arquivo>`: Caminho para o seu arquivo de respostas .txt ou .json.

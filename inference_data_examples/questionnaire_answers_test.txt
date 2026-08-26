@@ -1,0 +1,51 @@
+Rate each statement from 1 to 5, where 1 = Strongly Disagree and 5 = Strongly Agree.
+EXT1 - I am the life of the party: 1
+EXT2 - I don't talk a lot: 1
+EXT3 - I feel comfortable around people: 1
+EXT4 - I keep in the background: 1
+EXT5 - I start conversations: 1
+EXT6 - I have little to say: 1
+EXT7 - I talk to a lot of different people at parties: 1
+EXT8 - I don't like to draw attention to myself: 1
+EXT9 - I don't mind being the center of attention: 1
+EXT10 - I am quiet around strangers: 1
+EST1 - I get stressed out easily: 1
+EST2 - I am relaxed most of the time: 1
+EST3 - I worry about things: 1
+EST4 - I seldom feel blue: 1
+EST5 - I am easily disturbed: 1
+EST6 - I get upset easily: 1
+EST7 - I change my mood a lot: 1
+EST8 - I have frequent mood swings: 1
+EST9 - I get irritated easily: 1
+EST10 - I often feel blue: 1
+AGR1 - I feel little concern for others: 1
+AGR2 - I am interested in people: 1
+AGR3 - I insult people: 1
+AGR4 - I sympathize with others' feelings: 1
+AGR5 - I am not interested in other people's problems: 1
+AGR6 - I have a soft heart: 1
+AGR7 - I am not really interested in others: 1
+AGR8 - I take time out for others: 1
+AGR9 - I feel others' emotions: 1
+AGR10 - I make people feel at ease: 1
+CSN1 - I am always prepared: 1
+CSN2 - I leave my belongings around: 1
+CSN3 - I pay attention to details: 1
+CSN4 - I make a mess of things: 1
+CSN5 - I get chores done right away: 1
+CSN6 - I often forget to put things back in their proper place: 1
+CSN7 - I like order: 1
+CSN8 - I shirk my duties: 1
+CSN9 - I follow a schedule: 1
+CSN10 - I am exacting in my work: 1
+OPN1 - I have a rich vocabulary: 1
+OPN2 - I have difficulty understanding abstract ideas: 1
+OPN3 - I have a vivid imagination: 1
+OPN4 - I am not interested in abstract ideas: 1
+OPN5 - I have excellent ideas: 1
+OPN6 - I do not have a good imagination: 1
+OPN7 - I am quick to understand things: 1
+OPN8 - I use difficult words: 1
+OPN9 - I spend time reflecting on things: 1
+OPN10 - I am full of ideas: 1

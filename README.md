@@ -21,8 +21,7 @@ The dataset used for this project comes from:
 - **Data Cleaning**: The dataset was cleaned by removing incomplete responses, and responses from users that answered much slower or extremly faster compared to others.
 - **Correlation Matrix**: R was used to generate the correlation matrix since Python's standard functions only calculate Pearson correlations. The Pearson correlations is not ideal for applying to ordinal data. Using R allowed us to compute the polychoric correlation matrix, which is more appropriate for Likert-scale questionnaire data, which is an example of ordinal data.
 - **Factor Analysis**: Applied to identify underlying personality factors corresponding to the Big Five dimensions.
-- **Genetic Algorithm (GA)**: A simple GA was used for normalizing each personality factor between 0 and 1.
-' **K-means**: Finally, aswers to the dataset used were clusterized for trying to find main groups with similar personalities. 
+- **K-means**: Finally, aswers to the dataset used were clusterized for trying to find main groups with similar personalities. 
 
 ---
 
@@ -31,7 +30,7 @@ The dataset used for this project comes from:
 For training your own model using the provided dataset:
 
 ```python
-python train_model.py
+python run_training.py
 ```
 
 Note: The files and code comments are in Portuguese for personal reasons and planned projects.
@@ -44,7 +43,7 @@ You can now use the inferencia.py script to infer personality trait scores from 
 
 ### Usage
 ```python
-python inferencia.py <file> [lang]
+python run_inference.py <file> [lang]
 ```
 
 - `<file>`: Path to your .txt or .json answers file.

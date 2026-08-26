@@ -1,0 +1,51 @@
+Rate each statement from 1 to 5, where 1 = Strongly Disagree and 5 = Strongly Agree.
+EXT1 - I am the life of the party: null
+EXT2 - I don't talk a lot: null
+EXT3 - I feel comfortable around people: null
+EXT4 - I keep in the background: null
+EXT5 - I start conversations: null
+EXT6 - I have little to say: null
+EXT7 - I talk to a lot of different people at parties: null
+EXT8 - I don't like to draw attention to myself: null
+EXT9 - I don't mind being the center of attention: null
+EXT10 - I am quiet around strangers: null
+EST1 - I get stressed out easily: null
+EST2 - I am relaxed most of the time: null
+EST3 - I worry about things: null
+EST4 - I seldom feel blue: null
+EST5 - I am easily disturbed: null
+EST6 - I get upset easily: null
+EST7 - I change my mood a lot: null
+EST8 - I have frequent mood swings: null
+EST9 - I get irritated easily: null
+EST10 - I often feel blue: null
+AGR1 - I feel little concern for others: null
+AGR2 - I am interested in people: null
+AGR3 - I insult people: null
+AGR4 - I sympathize with others' feelings: null
+AGR5 - I am not interested in other people's problems: null
+AGR6 - I have a soft heart: null
+AGR7 - I am not really interested in others: null
+AGR8 - I take time out for others: null
+AGR9 - I feel others' emotions: null
+AGR10 - I make people feel at ease: null
+CSN1 - I am always prepared: null
+CSN2 - I leave my belongings around: null
+CSN3 - I pay attention to details: null
+CSN4 - I make a mess of things: null
+CSN5 - I get chores done right away: null
+CSN6 - I often forget to put things back in their proper place: null
+CSN7 - I like order: null
+CSN8 - I shirk my duties: null
+CSN9 - I follow a schedule: null
+CSN10 - I am exacting in my work: null
+OPN1 - I have a rich vocabulary: null
+OPN2 - I have difficulty understanding abstract ideas: null
+OPN3 - I have a vivid imagination: null
+OPN4 - I am not interested in abstract ideas: null
+OPN5 - I have excellent ideas: null
+OPN6 - I do not have a good imagination: null
+OPN7 - I am quick to understand things: null
+OPN8 - I use difficult words: null
+OPN9 - I spend time reflecting on things: null
+OPN10 - I am full of ideas: null

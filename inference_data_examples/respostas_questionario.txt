@@ -1,0 +1,51 @@
+Avalie cada afirmação de 1 a 5, onde 1 = Discordo totalmente e 5 = Concordo totalmente.
+EXT1 - Sou o centro das atenções em festas: null
+EXT2 - Não falo muito: null
+EXT3 - Sinto-me à vontade perto das pessoas: null
+EXT4 - Fico mais nos bastidores: null
+EXT5 - Início conversas facilmente: null
+EXT6 - Tenho pouco a dizer: null
+EXT7 - Converso com muitas pessoas diferentes em festas: null
+EXT8 - Não gosto de chamar atenção para mim: null
+EXT9 - Não me importo de ser o centro das atenções: null
+EXT10 - Sou reservado(a) com estranhos: null
+EST1 - Fico facilmente estressado(a): null
+EST2 - Estou relaxado(a) na maior parte do tempo: null
+EST3 - Preocupo-me com as coisas: null
+EST4 - Raramente me sinto triste: null
+EST5 - Sou facilmente perturbado(a): null
+EST6 - Fico irritado(a) facilmente: null
+EST7 - Mudo meu humor com frequência: null
+EST8 - Tenho mudanças de humor frequentes: null
+EST9 - Irrito-me com facilidade: null
+EST10 - Frequentemente me sinto triste: null
+AGR1 - Tenho pouca consideração pelos outros: null
+AGR2 - Tenho interesse pelas pessoas: null
+AGR3 - Insulto as pessoas: null
+AGR4 - Sinto empatia pelos sentimentos dos outros: null
+AGR5 - Não me interesso pelos problemas dos outros: null
+AGR6 - Tenho um coração mole: null
+AGR7 - Não me interesso realmente pelos outros: null
+AGR8 - Dedico tempo aos outros: null
+AGR9 - Sinto as emoções dos outros: null
+AGR10 - Faço as pessoas se sentirem à vontade: null
+CSN1 - Estou sempre preparado(a): null
+CSN2 - Deixo meus pertences espalhados: null
+CSN3 - Presto atenção aos detalhes: null
+CSN4 - Faço bagunça: null
+CSN5 - Faço as tarefas imediatamente: null
+CSN6 - Esqueço de colocar as coisas de volta no lugar: null
+CSN7 - Gosto de ordem: null
+CSN8 - Evito minhas responsabilidades: null
+CSN9 - Sigo um cronograma: null
+CSN10 - Sou meticuloso(a) no meu trabalho: null
+OPN1 - Tenho um vocabulário rico: null
+OPN2 - Tenho dificuldade em entender ideias abstratas: null
+OPN3 - Tenho uma imaginação vívida: null
+OPN4 - Não me interesso por ideias abstratas: null
+OPN5 - Tenho ideias excelentes: null
+OPN6 - Não tenho uma boa imaginação: null
+OPN7 - Compreendo as coisas rapidamente: null
+OPN8 - Uso palavras difíceis: null
+OPN9 - Passo tempo refletindo sobre as coisas: null
+OPN10 - Estou cheio(a) de ideias: null
