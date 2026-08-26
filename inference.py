@@ -1,13 +1,17 @@
 """Inference script for personality trait prediction."""
 
+import argparse
 import json
-import sys
+import logging
 from pathlib import Path
 import joblib
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from config import MODEL_PATH
+from visualization import plot_radar_matplotlib
+
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+logger = logging.getLogger(__name__)
 
 LANG = "en"
 
@@ -116,48 +120,25 @@ def _infer(responses: list[int], columns: list[str], model: dict) -> np.ndarray:
     return normalized[0]
 
 
-def _plot_radar(results: dict) -> None:
-    """Plot radar chart."""
-    categories = list(results.keys())
-    values = list(results.values())
-    values += values[:1]
-
-    angles = np.linspace(0, 2 * np.pi, len(categories), endpoint=False).tolist()
-    angles += angles[:1]
-
-    fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
-    ax.plot(angles, values, color="purple", linewidth=2)
-    ax.fill(angles, values, color="purple", alpha=0.25)
-
-    ax.set_xticks(angles[:-1])
-    ax.set_xticklabels(categories, fontsize=12)
-    ax.set_yticks([0.2, 0.4, 0.6, 0.8, 1.0])
-    ax.set_yticklabels(["0.2", "0.4", "0.6", "0.8", "1.0"], fontsize=10)
-    ax.set_ylim(0, 1)
-
-    title = "Perfil Baseado nos traços de Personalidade" if LANG == "pt" else "Profile Based on Personality Traits"
-    ax.set_title(title, size=15, color="black", pad=20)
-    plt.show()
-
-
 def main() -> None:
     """Entry point for inference."""
     global LANG
-    if len(sys.argv) == 3:
-        LANG = sys.argv[2].lower()
-        if LANG not in ["en", "pt"]:
-            print(_msg("erro_idioma"))
-            sys.exit(1)
 
-    if len(sys.argv) < 2 or len(sys.argv) > 3:
-        print(_msg("uso"))
-        print(_msg("formatos_aceitos"))
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Infer personality traits from questionnaire answers.")
+    parser.add_argument("file", type=Path, help="Path to .txt or .json answers file")
+    parser.add_argument("lang", nargs="?", default="en", choices=["en", "pt"], help="Language for output (default: en)")
+    args = parser.parse_args()
 
-    file_path = Path(sys.argv[1])
+    LANG = args.lang.lower()
+
+    file_path = args.file
     file_format = file_path.suffix[1:]
 
-    model = joblib.load(MODEL_PATH)
+    try:
+        model = joblib.load(MODEL_PATH)
+    except FileNotFoundError:
+        logger.error(f"Model file not found: {MODEL_PATH}")
+        raise
 
     if file_format == "txt":
         responses, columns = _load_txt(file_path)
@@ -170,7 +151,6 @@ def main() -> None:
 
     factor_names = model["nome_fatores"]
     trait_names = _msg("nomes_fatores")
-    # Map factor keys to display names
     display_names = {}
     for i, key in enumerate(factor_names):
         display_names[i] = trait_names[i]
@@ -178,13 +158,13 @@ def main() -> None:
     results_dict = dict(zip(display_names.values(), results))
 
     if LANG == "pt":
-        print("Resultado:")
+        logger.info("Resultado:")
     else:
-        print("Results:")
+        logger.info("Results:")
     for factor, value in results_dict.items():
-        print(f"{factor}: {value:.3f}")
+        logger.info(f"{factor}: {value:.3f}")
 
-    _plot_radar(results_dict)
+    plot_radar_matplotlib(results_dict, LANG)
 
 
 if __name__ == "__main__":

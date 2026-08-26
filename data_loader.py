@@ -1,7 +1,10 @@
 """Data loading utilities."""
 
 from pathlib import Path
+import logging
 import pandas as pd
+
+logger = logging.getLogger(__name__)
 
 
 def load_data(data_path: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -18,28 +21,31 @@ def load_data(data_path: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
     tuple[pd.DataFrame, pd.DataFrame]
         (full_df, items_df) where items_df contains only the 50 personality columns.
     """
-    df = pd.read_csv(data_path, sep="\t", index_col=False)
+    try:
+        df = pd.read_csv(data_path, sep="\t", index_col=False)
+    except FileNotFoundError:
+        logger.error(f"Data file not found: {data_path}")
+        raise
 
     # Remove responses from same IP
     ipc_counts = df["IPC"].value_counts()
     for ipc_value, count in ipc_counts.items():
         if ipc_value > 1 and count % ipc_value != 0:
-            print(f"❌ IPC = {ipc_value} appears {count} times (not a multiple)")
+            logger.warning(f"IPC = {ipc_value} appears {count} times (not a multiple)")
 
-    print(ipc_counts)
-    print("Number of responses: ", len(df))
+    logger.info(f"Number of responses: {len(df)}")
     aux = len(df)
     df = df[df["IPC"] < 2]
-    print("Responses removed due to same IP: ", aux - len(df))
+    logger.info(f"Responses removed due to same IP: {aux - len(df)}")
 
     # Remove missing values
     aux = len(df)
     df = df.dropna()
     df = df[~df.isin(["NONE"]).any(axis=1)]
-    print("Responses removed due to NaN: ", aux - len(df))
+    logger.info(f"Responses removed due to NaN: {aux - len(df)}")
 
     # Select the 50 personality items
-    colunas = [
+    columns = [
         col for col in df.columns
         if (
             col.startswith("EXT")
@@ -50,11 +56,11 @@ def load_data(data_path: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
         )
         and not col.endswith("_E")
     ]
-    df = df[df[colunas].isin([1, 2, 3, 4, 5]).all(axis=1)]
-    df_itens = df[colunas]
+    df = df[df[columns].isin([1, 2, 3, 4, 5]).all(axis=1)]
+    df_items = df[columns]
 
-    print("Number of variables: ", len(df.columns))
-    print("Number of selected variables: ", len(df_itens.columns))
-    print("Number of responses after cleaning: ", len(df_itens))
+    logger.info(f"Number of variables: {len(df.columns)}")
+    logger.info(f"Number of selected variables: {len(df_items.columns)}")
+    logger.info(f"Number of responses after cleaning: {len(df_items)}")
 
-    return df, df_itens
+    return df, df_items
