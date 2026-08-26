@@ -111,8 +111,8 @@ def _load_json(file_path: Path) -> tuple[list[int], list[str]]:
 def _infer(responses: list[int], columns: list[str], model: dict) -> np.ndarray:
     """Compute normalized factor scores."""
     fa_model = model["model"]
-    factor_min = model["fatores_minimos"]
-    factor_max = model["fatores_maximos"]
+    factor_min = model["factor_min"]
+    factor_max = model["factor_max"]
 
     df_response = pd.DataFrame([responses], columns=columns)
     factors = fa_model.transform(df_response)
@@ -149,7 +149,7 @@ def main() -> None:
 
     results = _infer(responses, columns, model)
 
-    factor_names = model["nome_fatores"]
+    factor_names = model["factor_names"]
     trait_names = _msg("nomes_fatores")
     display_names = {}
     for i, key in enumerate(factor_names):
