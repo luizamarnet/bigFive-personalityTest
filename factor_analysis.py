@@ -61,14 +61,6 @@ def perform_factor_analysis(
     plt.tight_layout()
     plt.show()
 
-    plt.figure(figsize=(8, 4))
-    sns.heatmap(np.abs(loadings), annot=True, cmap="coolwarm", center=0, cbar_kws={"label": "Carga Fatorial"})
-    plt.title("Heatmap das Cargas Fatoriais")
-    plt.ylabel("Variáveis")
-    plt.xlabel("Fatores")
-    plt.tight_layout()
-    plt.show()
-
     df_fatores = np.abs(loadings)
     fator_dominante = df_fatores.idxmax(axis=1)
     fator_variaveis = {}

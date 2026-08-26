@@ -9,8 +9,6 @@ from pathlib import Path
 from config import (
     DATA_FILE_PATH,
     MODEL_PATH,
-    N_GENERATIONS,
-    POP_SIZE,
     R_HOME,
     TEMPO_CURTO,
     FATOR_IQR,
@@ -20,7 +18,6 @@ from data_loader import load_data
 from data_cleaner import clean_by_response_time
 from correlation import polychoric_correlation
 from factor_analysis import perform_factor_analysis
-from genetic_optimizer import find_optimal_individual
 from clustering import cluster_and_visualize
 
 
@@ -37,50 +34,48 @@ def main() -> None:
         usar_limite_superior=USAR_LIMITE_SUPERIOR,
     )
 
-    print("Number of responses after cleaning: ", len(df))
     print("Number of responses after cleaning: ", len(df_items))
 
-    df = df.sort_index()
-    df_items = df_items.loc[df.index]
-    print("Check that both datasets have same indices in same order: ", (df_items.index == df.index).all())
 
     pcor_matrix = polychoric_correlation(df_items)
     print("Shape of correlation matrix: ", np.shape(pcor_matrix))
 
     fa_model, factor_names = perform_factor_analysis(pcor_matrix, df_items.columns)
 
-    mean_ = df_items.mean(axis=0)
-    std_ = df_items.std(axis=0)
+    fa_model.mean_ = 0#mean_.values
+    fa_model.std_ = 1#std_.values
 
-    # Normalization using genetic algorithm
-    factor_max = np.zeros(5)
+
+    B = np.linalg.pinv(df_items) @ fa_model.transform(df_items)
+
+    aux_df = np.zeros((50,5))
+    aux_df[B<0] = 1
+    aux_df[B>=0] = 5
+    aux_df_trans = fa_model.transform(aux_df.T)
+
+    factor_max  = np.zeros(5)
+    factor_max [0] = aux_df_trans[0,0]
+    factor_max [1] = aux_df_trans[1,1]
+    factor_max [2] = aux_df_trans[2,2]
+    factor_max [3] = aux_df_trans[3,3]
+    factor_max [4] = aux_df_trans[4,4]
+
+    aux_df = np.zeros((50,5))
+    aux_df[B>=0] = 1
+    aux_df[B<0] = 5
+    aux_df_trans = fa_model.transform(aux_df.T)
+
     factor_min = np.zeros(5)
-
-    for factor_idx in range(5):
-        # Maximize
-        _, _, objective_max = find_optimal_individual(
-            fa_model,
-            mode="factor",
-            factor_idx=factor_idx,
-            minimize=False,
-            n_generations=N_GENERATIONS,
-            pop_size=POP_SIZE,
-        )
-        factor_max[factor_idx] = objective_max
-
-        # Minimize
-        _, _, objective_min = find_optimal_individual(
-            fa_model,
-            mode="factor",
-            factor_idx=factor_idx,
-            minimize=True,
-            n_generations=N_GENERATIONS,
-            pop_size=POP_SIZE,
-        )
-        factor_min[factor_idx] = objective_min
+    factor_min[0] = aux_df_trans[0,0]
+    factor_min[1] = aux_df_trans[1,1]
+    factor_min[2] = aux_df_trans[2,2]
+    factor_min[3] = aux_df_trans[3,3]
+    factor_min[4] = aux_df_trans[4,4]
 
     print("Factor max values:", factor_max)
     print("Factor min values:", factor_min)
+
+    
 
     # Transform and normalize
     df_items_transform = fa_model.transform(df_items)
@@ -107,7 +102,7 @@ def main() -> None:
         trait_names.get(prefix, prefix) for prefix in factor_names.values()
     ]
 
-    clusters = cluster_and_visualize(df_items_transform, factor_display_names)
+    cluster_and_visualize(df_items_transform, factor_display_names)
 
     print("Clustering completed.")
 

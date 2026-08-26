@@ -43,3 +43,5 @@ functions/*
 .firebase/*
 .github/*
 bigfive-site/*
+.aider*
+.env
