@@ -3,6 +3,7 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 from src.config import K_RANGE
 from sklearn.metrics import silhouette_score, davies_bouldin_score
+import logging
 
 logger = logging.getLogger(__name__)
 
