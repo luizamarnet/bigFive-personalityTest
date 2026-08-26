@@ -1,8 +1,8 @@
 """Data cleaning based on response time."""
 
-import matplotlib.pyplot as plt
 import pandas as pd
 from config import TEMPO_CURTO, FATOR_IQR, USAR_LIMITE_SUPERIOR
+from visualization import plot_boxplot
 
 
 def clean_by_response_time(
@@ -36,7 +36,7 @@ def clean_by_response_time(
     tuple[pd.DataFrame, pd.DataFrame]
         Cleaned (df, df_items).
     """
-    colunas = [
+    time_columns = [
         col for col in df.columns
         if (
             col.startswith("EXT")
@@ -47,61 +47,43 @@ def clean_by_response_time(
         )
         and col.endswith("_E")
     ]
-    df_tempos = df[colunas]
+    df_times = df[time_columns]
 
-    tempos_validos = []
+    valid_times = []
     labels = []
-    todos_indices = df_tempos.index
+    all_indices = df_times.index
 
-    for var in df_tempos.columns:
-        tempos = df_tempos[var] / 1000  # ms -> s
-        tempos = tempos[tempos >= tempo_curto]
+    for var in df_times.columns:
+        times = df_times[var] / 1000  # ms -> s
+        times = times[times >= tempo_curto]
 
         if tempo_longo is not None:
-            tempos = tempos[tempos <= tempo_longo]
+            times = times[times <= tempo_longo]
 
-        if len(tempos) == 0:
+        if len(times) == 0:
             print(f"[!] No valid data in {var} after filter > {tempo_curto}s")
             continue
 
-        tempos_filtrados = tempos[tempos >= tempo_curto]
-        indices_descartados = todos_indices.difference(tempos_filtrados.index)
-        df = df.drop(index=indices_descartados, errors="ignore")
-        df_items = df_items.drop(index=indices_descartados, errors="ignore")
+        filtered_times = times[times >= tempo_curto]
+        discarded_indices = all_indices.difference(filtered_times.index)
+        df = df.drop(index=discarded_indices, errors="ignore")
+        df_items = df_items.drop(index=discarded_indices, errors="ignore")
 
-        tempos_validos.append(tempos)
+        valid_times.append(times)
         labels.append(var)
 
-        Q1 = tempos.quantile(0.25)
-        Q3 = tempos.quantile(0.75)
+        Q1 = times.quantile(0.25)
+        Q3 = times.quantile(0.75)
         IQR = Q3 - Q1
-        limite_inferior = Q1 - fator * IQR
-        limite_superior = Q3 + fator * IQR
+        lower_limit = Q1 - fator * IQR
+        upper_limit = Q3 + fator * IQR
 
-        outliers = tempos[tempos < limite_inferior]
+        outliers = times[times < lower_limit]
         if usar_limite_superior:
-            outliers = tempos[(tempos < limite_inferior) | (tempos > limite_superior)]
+            outliers = times[(times < lower_limit) | (times > upper_limit)]
         else:
-            outliers = tempos[tempos < limite_inferior]
+            outliers = times[times < lower_limit]
 
-    flierprops = dict(marker="o", markerfacecolor="red", markersize=3, linestyle="none")
-
-    plt.figure(figsize=(14, 6))
-    plt.boxplot(tempos_validos, labels=labels, showfliers=True, flierprops=flierprops, whis=fator)
-    plt.title(f"Boxplot of response times {tempo_curto} per Big Five item")
-    plt.xlabel("Time (seconds)")
-    plt.ylabel("Items")
-    if tempo_longo is not None:
-        if tempo_longo < 1800:
-            plt.ylim(-1, tempo_longo)
-        else:
-            plt.ylim(-1, 1800)
-    else:
-        plt.ylim(-1, 1800)
-    plt.xticks(rotation=90)
-    plt.grid(True)
-    plt.tight_layout()
-    plt.savefig("boxplot_tempos_bigfive.png", dpi=300, bbox_inches="tight")
-    plt.show()
+    plot_boxplot(valid_times, labels, tempo_curto, tempo_longo, fator)
 
     return df, df_items
