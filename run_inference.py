@@ -7,8 +7,8 @@ from pathlib import Path
 import joblib
 import numpy as np
 import pandas as pd
-from config import MODEL_PATH
-from visualization import plot_radar_matplotlib
+from src.config import MODEL_PATH
+from src.visualization.visualization import plot_radar_matplotlib
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)

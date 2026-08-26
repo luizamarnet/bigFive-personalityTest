@@ -38,11 +38,7 @@ def polychoric_correlation(df_items: pd.DataFrame) -> pd.DataFrame:
             pcor <- polychoric(df)$rho
             kmo_result <- KMO(pcor)
             bartlett_result <- cortest.bartlett(pcor, n = N)
-            cat("\\n=== Bartlett's Test ===\\n")
             bartlett_result <- cortest.bartlett(pcor, n = N)
-            print(bartlett_result$chisq)
-            print(bartlett_result$df)
-            print(bartlett_result$p.value)
             """
         )
         

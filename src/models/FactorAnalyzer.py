@@ -33,8 +33,8 @@ def perform_factor_analysis(
     fa = FactorAnalyzer(n_factors=50, rotation="varimax", is_corr_matrix=True)
     fa.fit(correlation_matrix)
     ev, v = fa.get_eigenvalues()
-    print(ev.sum())
-    print(v.sum())
+    #print(ev.sum())
+    #print(v.sum())
 
     plot_scree(ev)
 
