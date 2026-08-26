@@ -4,16 +4,21 @@ import matplotlib.pyplot as plt
 from src.config import K_RANGE
 from sklearn.metrics import silhouette_score, davies_bouldin_score
 
+logger = logging.getLogger(__name__)
+
 def number_clusters_choice (
     data: np.ndarray) -> int:
+
+    logger.info("Testing the number of clusters...")
+
     max_k = K_RANGE
-    k_range = range(1, max_k + 1)
+    k_range = range(2, max_k + 1)
     inertias=[]
     silhouette_scores=[]
     davies_bouldin_scores=[]
     for k in k_range:
 
-        print("k: ", k)
+        logger.info(f"Performing k-means with {k} clusters...")
 
         kmeans = KMeans(
             n_clusters=k,
