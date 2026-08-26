@@ -17,7 +17,8 @@ N_FACTORS = 5
 
 # Clustering
 K_OTIMO = 5
-
+K_RANGE = 20 # max number of clusters to test
+TEST_NUMBER_CLUSTERS = True # Whether to test the number of clusters to choose before clusterization
 # Genetic algorithm
 N_GENERATIONS = 500
 POP_SIZE = 200

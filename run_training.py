@@ -13,12 +13,14 @@ from src.config import (
     TEMPO_CURTO,
     FATOR_IQR,
     USAR_LIMITE_SUPERIOR,
+    TEST_NUMBER_CLUSTERS,
 )
 from src.data.data_loader import load_data
 from src.data.data_cleaner import clean_by_response_time
 from src.data.correlation import polychoric_correlation
 from src.models.FactorAnalyzer import perform_factor_analysis
 from src.models.clustering import cluster_and_visualize
+from src.models.number_clusters_choice import number_clusters_choice
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -121,7 +123,12 @@ def main() -> None:
     df_items_transform = (df_items_transform - factor_min) / (factor_max - factor_min)
 
     save_model(fa_model, factor_names, factor_min, factor_max)
-    run_clustering(df_items_transform, factor_names)
+
+    if TEST_NUMBER_CLUSTERS:
+        n_clusters=number_clusters_choice(df_items_transform)
+        run_clustering(df_items_transform, factor_names,k=n_clusters)
+    else: 
+        run_clustering(df_items_transform, factor_names)
 
 
 if __name__ == "__main__":
