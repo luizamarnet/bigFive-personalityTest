@@ -6,7 +6,8 @@ from sklearn.metrics import silhouette_score, davies_bouldin_score
 
 def number_clusters_choice (
     data: np.ndarray) -> int:
-    k_range=K_RANGE
+    max_k = K_RANGE
+    k_range = range(1, max_k + 1)
     inertias=[]
     silhouette_scores=[]
     davies_bouldin_scores=[]
