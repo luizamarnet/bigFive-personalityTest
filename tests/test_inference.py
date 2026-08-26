@@ -8,9 +8,9 @@ from inference import _load_txt, _load_json
 
 def test_load_txt(tmp_path):
     content = """Rate each statement from 1 to 5
-EXT1 - I am the life of the party: 3
-EXT2 - I don't talk a lot: 2
-"""
+    EXT1 - I am the life of the party: 3
+    EXT2 - I don't talk a lot: 2
+    """
     file_path = tmp_path / "answers.txt"
     file_path.write_text(content)
 
