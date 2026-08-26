@@ -32,6 +32,7 @@ def ler_dados(caminho_arquivo):
     df = df[~df.isin(["NONE"]).any(axis=1)]
     print("Num respostas deletadas por conter NaN: ", aux-len(df))
 
+
     # Mostre colunas relevantes (as 50 questões do IPIP)
     colunas = [col for col in df.columns if (
             (col.startswith("EXT") 
@@ -40,6 +41,7 @@ def ler_dados(caminho_arquivo):
             or col.startswith("CSN") 
             or col.startswith("OPN"))
             and not col.endswith("_E") )]
+    df = df[df[colunas].isin([1, 2, 3, 4, 5]).all(axis=1)]
     df_itens = df[colunas]
 
     outras_colunas = [col for col in df.columns if not(

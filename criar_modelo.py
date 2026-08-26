@@ -59,35 +59,61 @@ print(np.shape(pcor_matrix))
 
 fa_model, nome_fatores = analise_de_fatores(pcor_matrix, df_itens.columns)
 
+print("fa_model.mean_ : ", fa_model.mean_ )
+print("fa_model.std_ : ", fa_model.std_ )
+
 mean_ = df_itens.mean(axis=0)
 std_ = df_itens.std(axis=0)
 
-# 🔧 Injetar manualmente média e desvio no modelo
 fa_model.mean_ = 0#mean_.values
 fa_model.std_ = 1#std_.values
 
+aux_df = np.zeros((50))
+fator_n=1
+aux_df[(fa_model.loadings_)[:,fator_n]<0] = 1
+aux_df[(fa_model.loadings_)[:,fator_n]>=0] = 5
+print("aux_df: ",aux_df)
+print("trans: ", fa_model.transform([aux_df.T]))
+print("fa_model.loadings_: ", fa_model.loadings_[:,1])
+B = np.linalg.pinv(df_itens) @ fa_model.transform(df_itens)
+print("**: ", np.shape(B))
+print("**: ", B)
+print("[aux_df.T] @ B: ", [aux_df.T] @ B)
+print("[aux_df.T] @ B: ", np.shape([aux_df.T] @ B))
+print("ex: ", [aux_df.T])
+print("calc: ", fa_model.transform([aux_df.T])@fa_model.loadings_.T)
+print("fa_model.mean_ : ", fa_model.mean_ )
+print("fa_model.std_ : ", fa_model.std_ )
+# 🔧 Injetar manualmente média e desvio no modelo
+#fa_model.mean_ = 0#mean_.values
+#fa_model.std_ = 1#std_.values
+print("fa_model.mean_: ",fa_model.mean_)
 
 print(df_itens)
 print(type(df_itens)) 
 df_itens_transform = fa_model.transform(df_itens)
 print("df_itens_transform: ",df_itens_transform)
 
+print("fa.loadings_: ", np.shape(fa_model.loadings_))
 
 
-fatores_maximos = np.zeros(5)
-'''aux_df = np.zeros((50,5))
+aux_df = np.zeros((50,5))
 aux_df[fa_model.loadings_<0] = 1
 aux_df[fa_model.loadings_>=0] = 5
 aux_df = pd.DataFrame(np.transpose(aux_df), columns=df_itens.columns)
 print(df_itens.shape)
-print(aux_df.shape)
-print(aux_df)
+print("shape fa_model.loadings: ", np.shape(fa_model.loadings_))
+print("aux_df.shape", aux_df.shape)
+print("aux_df_1: ", aux_df.iloc[1,:])
 fatores_maximos_aux = fa_model.transform(aux_df)
-fatores_maximos[0] = fatores_maximos_aux[0,0]
+print("fatores_maximos_aux -- ", np.shape(fatores_maximos_aux))
+print("fatores_maximos_aux -- ", fatores_maximos_aux)
+'''fatores_maximos[0] = fatores_maximos_aux[0,0]
 fatores_maximos[1] = fatores_maximos_aux[1,1]
 fatores_maximos[2] = fatores_maximos_aux[2,2]
 fatores_maximos[3] = fatores_maximos_aux[3,3]
 fatores_maximos[4] = fatores_maximos_aux[4,4]'''
+fatores_maximos = np.zeros(5)
 fator_n=0
 ind, fat, objetivo = encontrar_individuo_otimo(
     fa=fa_model,
@@ -100,6 +126,15 @@ ind, fat, objetivo = encontrar_individuo_otimo(
     pop_size=200
 )
 fatores_maximos[fator_n]=objetivo
+print("_-----------------------------------------------------------------")
+print("inds for max FAT: ", fator_n)
+B = np.linalg.pinv(df_itens) @ fa_model.transform(df_itens)
+aux_df = np.zeros((50))
+aux_df[B[:,fator_n]<0] = 1
+aux_df[B[:,fator_n]>=0] = 5
+print("= = ?? \n", np.all(aux_df==ind))
+print([int(i) for i in ind])
+print([int(i) for i in aux_df])
 fator_n=1
 ind, fat, objetivo = encontrar_individuo_otimo(
     fa=fa_model,
@@ -111,7 +146,27 @@ ind, fat, objetivo = encontrar_individuo_otimo(
     n_generations=500,
     pop_size=200
 )
-print("fat 2: ", ind)
+print("_-----------------------------------------------------------------")
+print("inds for max FAT: ", fator_n)
+B = np.linalg.pinv(df_itens) @ fa_model.transform(df_itens)
+aux_df = np.zeros((50))
+aux_df[B[:,fator_n]<0] = 1
+aux_df[B[:,fator_n]>=0] = 5
+print("= = ?? \n", np.all(aux_df==ind))
+'''print("aux_df: ",aux_df)
+print("trans: ", fa_model.transform([ind]))
+print("trans: ", fa_model.transform([aux_df.T]))
+print("fa_model.loadings_: ", fa_model.loadings_[:,1])
+B = np.linalg.pinv(df_itens) @ fa_model.transform(df_itens)
+print("**: ", np.shape(B))
+print("**: ", B)
+print("[aux_df.T] @ B: ", [aux_df.T] @ B)
+print("[aux_df.T] @ B: ", np.shape([aux_df.T] @ B))
+print("fat: ", fat)
+print("objetivo: ", objetivo)
+print("ex: ", [aux_df.T])
+print("calc: ", fa_model.transform([aux_df.T])@fa_model.loadings_.T)'''
+#[fa_model.transform([melhor_individuo])[0]]
 fatores_maximos[fator_n]=objetivo
 fator_n=2
 ind, fat, objetivo = encontrar_individuo_otimo(
@@ -125,6 +180,13 @@ ind, fat, objetivo = encontrar_individuo_otimo(
     pop_size=200
 )
 fatores_maximos[fator_n]=objetivo
+print("_-----------------------------------------------------------------")
+print("inds for max FAT: ", fator_n)
+B = np.linalg.pinv(df_itens) @ fa_model.transform(df_itens)
+aux_df = np.zeros((50))
+aux_df[B[:,fator_n]<0] = 1
+aux_df[B[:,fator_n]>=0] = 5
+print("= = ?? \n", np.all(aux_df==ind))
 fator_n=3
 ind, fat, objetivo = encontrar_individuo_otimo(
     fa=fa_model,
@@ -137,6 +199,13 @@ ind, fat, objetivo = encontrar_individuo_otimo(
     pop_size=200
 )
 fatores_maximos[fator_n]=objetivo
+print("_-----------------------------------------------------------------")
+print("inds for max FAT: ", fator_n)
+B = np.linalg.pinv(df_itens) @ fa_model.transform(df_itens)
+aux_df = np.zeros((50))
+aux_df[B[:,fator_n]<0] = 1
+aux_df[B[:,fator_n]>=0] = 5
+print("= = ?? \n", np.all(aux_df==ind))
 fator_n=4
 ind, fat, objetivo = encontrar_individuo_otimo(
     fa=fa_model,
@@ -151,6 +220,13 @@ ind, fat, objetivo = encontrar_individuo_otimo(
 print("fat 5: ", ind)
 fatores_maximos[fator_n]=objetivo
 print("Valore dos fatores maximizados:", fatores_maximos)
+print("_-----------------------------------------------------------------")
+print("inds for max FAT: ", fator_n)
+B = np.linalg.pinv(df_itens) @ fa_model.transform(df_itens)
+aux_df = np.zeros((50))
+aux_df[B[:,fator_n]<0] = 1
+aux_df[B[:,fator_n]>=0] = 5
+print("= = ?? \n", np.all(aux_df==ind))
 
 fatores_minimos = np.zeros(5)
 '''aux_df = np.zeros((50,5))
@@ -175,6 +251,13 @@ ind, fat, objetivo = encontrar_individuo_otimo(
     n_generations=500,
     pop_size=200
 )
+print("_-----------------------------------------------------------------")
+print("inds for min FAT: ", fator_n)
+B = np.linalg.pinv(df_itens) @ fa_model.transform(df_itens)
+aux_df = np.zeros((50))
+aux_df[B[:,fator_n]<=0] = 5
+aux_df[B[:,fator_n]>=0] = 1
+print("= = ?? \n", np.all(aux_df==ind))
 fatores_minimos[fator_n]=objetivo
 fator_n=1
 ind, fat, objetivo = encontrar_individuo_otimo(
@@ -188,7 +271,18 @@ ind, fat, objetivo = encontrar_individuo_otimo(
     pop_size=200
 )
 fatores_minimos[fator_n]=objetivo
-print("fat 2: ", ind)
+print("_-----------------------------------------------------------------")
+print("inds for min FAT: ", fator_n)
+B = np.linalg.pinv(df_itens) @ fa_model.transform(df_itens)
+aux_df = np.zeros((50))
+aux_df[B[:,fator_n]<=0] = 5
+aux_df[B[:,fator_n]>=0] = 1
+print("= = ?? \n", np.all(aux_df==ind))
+print("fator = ", fator_n)
+print("objetivo: ", objetivo)
+print("ind: ", ind)
+print(fa_model.transform([aux_df]))
+
 fator_n=2
 ind, fat, objetivo = encontrar_individuo_otimo(
     fa=fa_model,
@@ -201,6 +295,14 @@ ind, fat, objetivo = encontrar_individuo_otimo(
     pop_size=200
 )
 fatores_minimos[fator_n]=objetivo
+print("_-----------------------------------------------------------------")
+print("inds for min FAT: ", fator_n)
+B = np.linalg.pinv(df_itens) @ fa_model.transform(df_itens)
+aux_df = np.zeros((50))
+aux_df[B[:,fator_n]<=0] = 5
+aux_df[B[:,fator_n]>=0] = 1
+print("= = ?? \n", np.all(aux_df==ind))
+
 fator_n=3
 ind, fat, objetivo = encontrar_individuo_otimo(
     fa=fa_model,
@@ -213,6 +315,15 @@ ind, fat, objetivo = encontrar_individuo_otimo(
     pop_size=200
 )
 fatores_minimos[fator_n]=objetivo
+print("_-----------------------------------------------------------------")
+print("inds for min FAT: ", fator_n)
+B = np.linalg.pinv(df_itens) @ fa_model.transform(df_itens)
+aux_df = np.zeros((50))
+aux_df[B[:,fator_n]<=0] = 5
+aux_df[B[:,fator_n]>=0] = 1
+print("= = ?? \n", np.all(aux_df==ind))
+
+
 fator_n=4
 ind, fat, objetivo = encontrar_individuo_otimo(
     fa=fa_model,
@@ -225,23 +336,72 @@ ind, fat, objetivo = encontrar_individuo_otimo(
     pop_size=200
 )
 fatores_minimos[fator_n]=objetivo
-print("fat 5: ", ind)
-print("Valore dos fatores minimizados:", fatores_minimos)
+print("_-----------------------------------------------------------------")
+indexes = np.argmin(df_itens_transform, axis=0)
+print("fator = ", fator_n)
+print("objetivo: ", objetivo)
+print("ind: ", ind)
+#print(df_itens.iloc[indexes[fator_n], :].values())
+print("_-----------------------------------------------------------------")
+print("inds for min FAT: ", fator_n)
+B = np.linalg.pinv(df_itens) @ fa_model.transform(df_itens)
+aux_df = np.zeros((50))
+aux_df[B[:,fator_n]<=0] = 5
+aux_df[B[:,fator_n]>=0] = 1
+print("= = ?? \n", np.all(aux_df==ind))
+
+
     
 
 print("-----")
 print("size df_itens_transform: ", np.shape(df_itens_transform))
 print(np.max(df_itens_transform, axis=0))
 print(np.min(df_itens_transform, axis=0))
-
+print("min 1 data: ", df_itens.iloc[indexes[1], :])
+print("min 1 trans: ", df_itens_transform[indexes[1], :])
+print("min 1 trans: ", fa_model.transform([df_itens.iloc[indexes[1], :]]))
 df_itens_transform0 = df_itens_transform[0,:]
+
+B = np.linalg.pinv(df_itens) @ fa_model.transform(df_itens)
+
+aux_df = np.zeros((50,5))
+aux_df[B<0] = 1
+aux_df[B>=0] = 5
+aux_df_trans = fa_model.transform(aux_df.T)
+
+fatores_maximos = np.zeros(5)
+fatores_maximos[0] = aux_df_trans[0,0]
+fatores_maximos[1] = aux_df_trans[1,1]
+fatores_maximos[2] = aux_df_trans[2,2]
+fatores_maximos[3] = aux_df_trans[3,3]
+fatores_maximos[4] = aux_df_trans[4,4]
+
+aux_df = np.zeros((50,5))
+aux_df[B>=0] = 1
+aux_df[B<0] = 5
+aux_df_trans = fa_model.transform(aux_df.T)
+
+fatores_minimos = np.zeros(5)
+fatores_minimos[0] = aux_df_trans[0,0]
+fatores_minimos[1] = aux_df_trans[1,1]
+fatores_minimos[2] = aux_df_trans[2,2]
+fatores_minimos[3] = aux_df_trans[3,3]
+fatores_minimos[4] = aux_df_trans[4,4]
+
+
+
 #print("-----------------------------")
 #print(df_itens_transform0)
+print("min: ", np.min(df_itens_transform, axis=0))
+print("min args: ", np.argmin(df_itens_transform, axis=0))
+print("fatores_minimos: ", fatores_minimos)
+print("fatores_maximos: ", fatores_maximos)
 df_itens_transform0 = (df_itens_transform0 - fatores_minimos) / (fatores_maximos - fatores_minimos)
 #print(df_itens_transform0)
 df_itens_transform = (df_itens_transform - fatores_minimos) / (fatores_maximos - fatores_minimos)
-#print(np.max(df_itens_transform, axis=0))
-#print(np.min(df_itens_transform, axis=0))
+print(np.max(df_itens_transform, axis=0))
+print(np.min(df_itens_transform, axis=0))
+print(np.argmin(df_itens_transform, axis=0))
 
 fa_model_salvar = {
     'model': fa_model,
@@ -252,7 +412,22 @@ fa_model_salvar = {
 # Salvando o modelo
 joblib.dump(fa_model_salvar, 'modelo_factoranalyzer.pkl')
 
-clusters = clusterizacao(df_itens_transform)
+nomes_fatores = {
+    "EXT": "Extraversion",
+    "EST": "Neuroticism",
+    "AGR": "Agreeableness",
+    "CSN": "Conscientiousness",
+    "OPN": "Openness",
+}
+
+nomes = [
+    nomes_fatores.get(nome_fator, nome_fator)
+    for nome_fator in nome_fatores.values()
+]
+
+#df_itens_transform.columns = nomes
+
+clusters = clusterizacao(df_itens_transform, nomes)
 
 
 

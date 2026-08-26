@@ -1,75 +1,304 @@
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score, davies_bouldin_score
 import numpy as np
-from sklearn.preprocessing import StandardScaler
 import joblib
+import plotly.graph_objects as go
 
-def clusterizacao(df_itens_transform):
 
-    '''print(type(df_itens_transform))  # should output: <class 'numpy.ndarray'>
-    # Optionally, check the new mean and std of each feature (column)
-    print("Mean per feature:", df_itens_transform.mean(axis=0))
-    print("Std per feature:", df_itens_transform.std(axis=0))
+def clusterizacao(df_itens_transform,nomes):
 
-    # Normalize
-    scaler = StandardScaler()
-    df_itens_transform = scaler.fit_transform(df_itens_transform)
+    # ============================================================
+    # 1. Dados
+    # ============================================================
 
-    print("Mean per feature:", df_itens_transform.mean(axis=0))
-    print("Std per feature:", df_itens_transform.std(axis=0))'''
-    
-    # Testar diferentes números de clusters (k) para o método do cotovelo
+    # Nome das colunas = nomes dos fatores
+    labels = nomes
+
+    # Converte para numpy para o sklearn
+    X = df_itens_transform
+
+    # Número máximo de clusters
+    max_k = 15#min(20, len(X) - 1)
+    k_range = range(1, max_k + 1)
+
+    # ============================================================
+    # 2. Avaliação de diferentes valores de K
+    # ============================================================
+
     inertias = []
-    k_range = range(1, 50)
+    silhouette_scores = []
+    davies_bouldin_scores = []
 
-    for k in k_range:
-        kmeans = KMeans(n_clusters=k, random_state=42)
-        kmeans.fit(df_itens_transform)
-        inertias.append(kmeans.inertia_)  # Soma das distâncias quadradas intra-cluster
+    '''for k in k_range:
 
-    # Plot do cotovelo
-    plt.figure(figsize=(6, 4))
-    plt.plot(k_range, inertias, marker='o')
-    plt.title('Método do Cotovelo para escolher k')
-    plt.xlabel('Número de Clusters (k)')
-    plt.ylabel('Inércia (Soma das distâncias quadradas)')
-    plt.grid(True)
+        print("k: ", k)
+
+        kmeans = KMeans(
+            n_clusters=k,
+            random_state=42,
+            n_init="auto"
+        )
+
+        clusters_k = kmeans.fit_predict(X)
+
+        # Inércia funciona também para k=1
+        inertias.append(kmeans.inertia_)
+
+        # Silhouette e Davies-Bouldin precisam de pelo menos 2 clusters
+        if k >= 2:
+            silhouette_scores.append(
+                silhouette_score(X, clusters_k)
+            )
+
+            davies_bouldin_scores.append(
+                davies_bouldin_score(X, clusters_k)
+            )
+
+    # ============================================================
+    # 3. Plot das métricas para escolher K
+    # ============================================================
+
+    fig, axes = plt.subplots(
+        1,
+        3,
+        figsize=(18, 5)
+    )
+
+    # ----------------------------
+    # Inércia
+    # ----------------------------
+
+    axes[0].plot(
+        list(k_range),
+        inertias,
+        marker="o"
+    )
+
+    axes[0].set_title("Método do Cotovelo")
+    axes[0].set_xlabel("Número de clusters (k)")
+    axes[0].set_ylabel("Inércia")
+    axes[0].grid(True)
+
+    # ----------------------------
+    # Silhouette
+    # ----------------------------
+
+    silhouette_k_range = list(range(2, max_k + 1))
+
+    axes[1].plot(
+        silhouette_k_range,
+        silhouette_scores,
+        marker="o"
+    )
+
+    axes[1].set_title("Silhouette Score")
+    axes[1].set_xlabel("Número de clusters (k)")
+    axes[1].set_ylabel("Silhouette")
+    axes[1].grid(True)
+
+    # Melhor silhouette
+    best_silhouette_k = (
+        silhouette_k_range[
+            np.argmax(silhouette_scores)
+        ]
+    )
+
+    axes[1].axvline(
+        best_silhouette_k,
+        linestyle="--",
+        alpha=0.7
+    )
+
+    axes[1].text(
+        best_silhouette_k,
+        max(silhouette_scores),
+        f" Melhor k = {best_silhouette_k}"
+    )
+
+    # ----------------------------
+    # Davies-Bouldin
+    # ----------------------------
+
+    axes[2].plot(
+        silhouette_k_range,
+        davies_bouldin_scores,
+        marker="o"
+    )
+
+    axes[2].set_title("Davies-Bouldin Index")
+    axes[2].set_xlabel("Número de clusters (k)")
+    axes[2].set_ylabel("Davies-Bouldin")
+    axes[2].grid(True)
+
+    # Melhor DB = menor valor
+    best_db_k = (
+        silhouette_k_range[
+            np.argmin(davies_bouldin_scores)
+        ]
+    )
+
+    axes[2].axvline(
+        best_db_k,
+        linestyle="--",
+        alpha=0.7
+    )
+
+    axes[2].text(
+        best_db_k,
+        min(davies_bouldin_scores),
+        f" Melhor k = {best_db_k}"
+    )
+
     plt.tight_layout()
     plt.show()
+    
+    print(f"Melhor Silhouette: k = {best_silhouette_k}")
+    print(f"Melhor Davies-Bouldin: k = {best_db_k}")'''
 
-    k_otimo=5
-    kmeans = KMeans(n_clusters=k_otimo, random_state=42)
-    clusters = kmeans.fit(df_itens_transform)
+    # ============================================================
+    # 4. Escolher K
+    # ============================================================
+
+    # Você pode alterar isso depois de olhar os gráficos
+    k_otimo = 5
+
+    print(f"\nK escolhido: {k_otimo}")
+    
+
+    # ============================================================
+    # 5. Treinar modelo final
+    # ============================================================
+
+    kmeans = KMeans(
+        n_clusters=k_otimo,
+        random_state=42,
+        n_init="auto"
+    )
+
+    clusters = kmeans.fit_predict(X)
+
     centroids = kmeans.cluster_centers_
-    clusters = kmeans.predict(df_itens_transform)
-    # Salvando o modelo
-    joblib.dump(kmeans, 'modelo_kmeans.pkl')
 
-    # Número de fatores (eixos)
+    # ============================================================
+    # 6. Salvar modelo
+    # ============================================================
+
+    joblib.dump(
+        kmeans,
+        "modelo_kmeans.pkl"
+    )
+
+    # ============================================================
+    # 7. Radar plot interativo
+    # ============================================================
+
+    # 8. Preparar radar
+    # ============================================================
+
+    # Número de fatores
     n_fatores = centroids.shape[1]
-    angles = np.linspace(0, 2 * np.pi, n_fatores, endpoint=False).tolist()
-    angles += angles[:1]  # Fechar o círculo
 
-    # Nomes dos fatores
-    labels = [f'Fator {i+1}' for i in range(n_fatores)]
+    # Fechar o radar repetindo o primeiro fator
+    radar_labels = labels + [labels[0]]
 
-    # Criar gráfico
-    plt.figure(figsize=(8, 6))
-    ax = plt.subplot(111, polar=True)
+    # ============================================================
+    # 9. Criar radar Plotly
+    # ============================================================
 
-    # Adicionar cada cluster
+    fig = go.Figure()
+
     for i, centroide in enumerate(centroids):
-        valores = centroide.tolist()
-        valores += valores[:1]  # Fechar o círculo
-        ax.plot(angles, valores, label=f'Cluster {i+1}')
-        ax.fill(angles, valores, alpha=0.2)
 
-    # Ajustes do gráfico
-    ax.set_xticks(angles[:-1])
-    ax.set_xticklabels(labels)
-    ax.set_title('Perfis dos Clusters (Centroides) - Gráfico Aranha')
-    ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1))
-    plt.tight_layout()
-    plt.show()
+        valores = centroide.tolist()
+
+        # Fecha o polígono
+        valores += valores[:1]
+
+        fig.add_trace(
+            go.Scatterpolar(
+                r=valores,
+                theta=radar_labels,
+
+                mode="lines+markers",
+
+                name=f"Cluster {i + 1}",
+
+                fill="toself",
+
+                opacity=0.35,
+
+                hovertemplate=(
+                    "<b>%{fullData.name}</b><br>"
+                    "%{theta}: %{r:.2f}"
+                    "<extra></extra>"
+                )
+            )
+        )
+
+    # ============================================================
+    # 10. Configurar radar
+    # ============================================================
+
+    fig.update_layout(
+
+        title="Perfis dos Clusters",
+
+        polar=dict(
+
+            radialaxis=dict(
+
+                # Mostrar eixo
+                visible=True,
+
+                # IMPORTANTE:
+                # eixo sempre vai de 0 até 1
+                range=[0, 1],
+
+                # Marcações
+                tickvals=[
+                    0,
+                    0.2,
+                    0.4,
+                    0.6,
+                    0.8,
+                    1.0
+                ]
+            )
+        ),
+
+        legend=dict(
+            title="Clusters",
+            orientation="v"
+        ),
+
+        template="plotly_white",
+
+        width=900,
+        height=700
+    )
+
+    # ============================================================
+    # 11. Mostrar radar interativo
+    # ============================================================
+
+    fig.show()
+
+    # ============================================================
+    # 12. Salvar radar interativo
+    # ============================================================
+
+    fig.write_html(
+        "perfis_clusters.html",
+        include_plotlyjs=True
+    )
+
+    print(
+        "Radar interativo salvo em: perfis_clusters.html"
+    )
+
+    # ============================================================
+    # 13. Retornar clusters
+    # ============================================================
 
     return clusters

@@ -31,7 +31,8 @@ def analise_de_fatores(pcor_matrix, columns_names):
     fa.fit(pcor_matrix)
 
     # Get variance of each factors
-    print(fa.get_factor_variance())
+    print("fa.get_factor_variance(): ", fa.get_factor_variance())
+    print("total var: ", np.sum(fa.get_factor_variance()[0]))
 
     # Obter cargas fatoriais e montar DataFrame
     loadings = pd.DataFrame(fa.loadings_, 
