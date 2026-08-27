@@ -3,12 +3,12 @@
 import joblib
 import numpy as np
 from sklearn.cluster import KMeans
-from src.config import K_OTIMO, KMEANS_MODEL_PATH
+from src.config import OPTIMAL_K, KMEANS_MODEL_PATH
 from src.visualization.visualization import plot_radar_interactive
 
 
 def cluster_and_visualize(
-    data: np.ndarray, factor_names: list[str], k: int = K_OTIMO
+    data: np.ndarray, factor_names: list[str], k: int = OPTIMAL_K
 ) -> np.ndarray:
     """
     Perform K-means clustering and generate an interactive radar chart.

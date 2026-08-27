@@ -65,6 +65,7 @@ def number_clusters_choice (
     axes[0].set_title("Método do Cotovelo")
     axes[0].set_xlabel("Número de clusters (k)")
     axes[0].set_ylabel("Inércia")
+    axes[0].set_xticks(list(k_range))
     axes[0].grid(True)
 
     # ----------------------------
@@ -82,6 +83,7 @@ def number_clusters_choice (
     axes[1].set_title("Silhouette Score")
     axes[1].set_xlabel("Número de clusters (k)")
     axes[1].set_ylabel("Silhouette")
+    axes[1].set_xticks(list(k_range))
     axes[1].grid(True)
 
     # Melhor silhouette
@@ -116,6 +118,7 @@ def number_clusters_choice (
     axes[2].set_title("Davies-Bouldin Index")
     axes[2].set_xlabel("Número de clusters (k)")
     axes[2].set_ylabel("Davies-Bouldin")
+    axes[2].set_xticks(list(k_range))
     axes[2].grid(True)
 
     # Melhor DB = menor valor
@@ -138,9 +141,13 @@ def number_clusters_choice (
     )
 
     plt.tight_layout()
+    plt.savefig("./results/number_clusters_analysis.png", dpi=300, bbox_inches="tight")
     plt.show()
+
+    logger.info("Number of clusters analysis saved to: ./results/number_clusters_analysis.png")
+    
     
     print("\nBased on these plots, how many clusters would you want to choose?")
-    number_clusters_chosen_by_user = input("> ")
+    number_clusters_chosen_by_user = int(input("> "))
 
-    return
+    return number_clusters_chosen_by_user

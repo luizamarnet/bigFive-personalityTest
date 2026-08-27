@@ -1,17 +1,17 @@
 """Data cleaning based on response time."""
 
 import pandas as pd
-from src.config import TEMPO_CURTO, FATOR_IQR, USAR_LIMITE_SUPERIOR
+from src.config import MIN_TIME, IQR_FACTOR, FILTER_LONG_RESPONSE_TIMES
 from src.visualization.visualization import plot_boxplot
 
 
 def clean_by_response_time(
     df: pd.DataFrame,
     df_items: pd.DataFrame,
-    tempo_curto: int = TEMPO_CURTO,
-    tempo_longo: float | None = None,
-    usar_limite_superior: bool = USAR_LIMITE_SUPERIOR,
-    fator: float = FATOR_IQR,
+    min_response_time: int = MIN_TIME,
+    max_response_time: float | None = None,
+    filter_long_response_times: bool = FILTER_LONG_RESPONSE_TIMES,
+    iqr_factor: float = IQR_FACTOR,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
     Remove rows where response time is too short or too long.
@@ -22,13 +22,13 @@ def clean_by_response_time(
         Full DataFrame with time columns.
     df_items : pd.DataFrame
         DataFrame with only the 50 personality items.
-    tempo_curto : int, optional
+    min_response_time : int, optional
         Minimum response time in seconds (default from config).
-    tempo_longo : float | None, optional
+    max_response_time : float | None, optional
         Maximum response time in seconds (default None).
-    usar_limite_superior : bool, optional
+    filter_long_response_times : bool, optional
         Whether to also filter by upper IQR limit (default from config).
-    fator : float, optional
+    iqr_factor : float, optional
         IQR multiplier for outlier detection (default from config).
 
     Returns
@@ -55,35 +55,44 @@ def clean_by_response_time(
 
     for var in df_times.columns:
         times = df_times[var] / 1000  # ms -> s
-        times = times[times >= tempo_curto]
+        times = times[times >= min_response_time]
 
-        if tempo_longo is not None:
-            times = times[times <= tempo_longo]
+        if max_response_time is not None:
+            times = times[times <= max_response_time]
 
         if len(times) == 0:
-            print(f"[!] No valid data in {var} after filter > {tempo_curto}s")
+            print(f"[!] No valid data in {var} after time filtering ")
             continue
 
-        filtered_times = times[times >= tempo_curto]
+        filtered_times = times[times >= min_response_time]
         discarded_indices = all_indices.difference(filtered_times.index)
         df = df.drop(index=discarded_indices, errors="ignore")
         df_items = df_items.drop(index=discarded_indices, errors="ignore")
 
-        valid_times.append(times)
-        labels.append(var)
+        
 
         Q1 = times.quantile(0.25)
         Q3 = times.quantile(0.75)
         IQR = Q3 - Q1
-        lower_limit = Q1 - fator * IQR
-        upper_limit = Q3 + fator * IQR
+        lower_limit = Q1 - iqr_factor * IQR
+        upper_limit = Q3 + iqr_factor * IQR
 
-        outliers = times[times < lower_limit]
-        if usar_limite_superior:
-            outliers = times[(times < lower_limit) | (times > upper_limit)]
-        else:
-            outliers = times[times < lower_limit]
+        if filter_long_response_times:
+            long_response_indices = times[
+                times > upper_limit
+            ].index
 
-    plot_boxplot(valid_times, labels, tempo_curto, tempo_longo, fator)
+            df = df.drop(index=long_response_indices, errors="ignore")
+            df_items = df_items.drop(
+                index=long_response_indices,
+                errors="ignore",
+            )
+
+            times = times[times <= upper_limit]
+
+        valid_times.append(times)
+        labels.append(var)
+
+    plot_boxplot(valid_times, labels, min_response_time, max_response_time, iqr_factor)
 
     return df, df_items

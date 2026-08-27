@@ -1,12 +1,12 @@
 """Tests for data_loader module."""
 
 import pandas as pd
-import pytest
 from pathlib import Path
-from data_loader import load_data
+from src.data.data_loader import load_data
 
 
-def test_load_data_returns_two_dataframes(tmp_path):
+def test_load_data_returns_two_dataframes():
+    tmp_path=Path("./tests/")
     # Create a minimal CSV file
     data = {
         "IPC": [1, 2, 3],

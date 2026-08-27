@@ -2,15 +2,16 @@
 
 import logging
 import rpy2.robjects as ro
-from rpy2.robjects.packages import importr
+import numpy as np
 from rpy2.robjects import pandas2ri
 from rpy2.robjects.conversion import localconverter
 import pandas as pd
+from numpy.typing import NDArray
 
 logger = logging.getLogger(__name__)
 
 
-def polychoric_correlation(df_items: pd.DataFrame) -> pd.DataFrame:
+def polychoric_correlation(df_items: pd.DataFrame) -> NDArray[np.float64]:
     """
     Compute polychoric correlation matrix using R's psych package.
 
@@ -26,7 +27,7 @@ def polychoric_correlation(df_items: pd.DataFrame) -> pd.DataFrame:
     """
     try:
         with localconverter(ro.default_converter + pandas2ri.converter):
-            r_df_items = ro.conversion.py2rpy(df_items)
+            r_df_items = ro.conversion.get_conversion().py2rpy(df_items)
 
         ro.globalenv["df"] = r_df_items
         n = df_items.shape[0]
@@ -38,16 +39,15 @@ def polychoric_correlation(df_items: pd.DataFrame) -> pd.DataFrame:
             pcor <- polychoric(df)$rho
             kmo_result <- KMO(pcor)
             bartlett_result <- cortest.bartlett(pcor, n = N)
-            bartlett_result <- cortest.bartlett(pcor, n = N)
             """
         )
         
 
         with localconverter(ro.default_converter + pandas2ri.converter):
-            pcor_matrix = ro.conversion.rpy2py(ro.r("pcor"))
+            pcor_matrix = ro.conversion.get_conversion().rpy2py(ro.r("pcor"))
 
-            kmo_result = ro.conversion.rpy2py(ro.r("kmo_result$MSA"))
-            bartlett_result = ro.conversion.rpy2py(ro.r("bartlett_result$p.value"))
+            kmo_result = ro.conversion.get_conversion().rpy2py(ro.r("kmo_result$MSA"))
+            bartlett_result = ro.conversion.get_conversion().rpy2py(ro.r("bartlett_result$p.value"))
 
         if kmo_result<0.6:
                 raise ValueError(

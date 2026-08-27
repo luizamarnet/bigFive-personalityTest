@@ -64,8 +64,6 @@ python run_training.py
 
 O script executa as etapas de pré-processamento dos dados, cálculo da matriz de correlação, análise fatorial e clustering.
 
-> **Nota:** O código-fonte e os comentários estão atualmente escritos em português por motivos pessoais e para projetos futuros.
-
 ---
 
 ## Inferindo os Resultados de Personalidade Localmente

@@ -67,14 +67,15 @@ def _load_txt(file_path: Path) -> tuple[list[int], list[str]]:
         lines = f.readlines()[1:]  # skip first line
         for line in lines:
             line = line.strip()
+            id_part = line.split("-")[0].strip()
             if not line:
                 continue
             if ":" not in line:
-                raise ValueError(_msg("erro_linha").format(line.split("-")[0]))
+                raise ValueError(_msg("erro_linha").format(id_part))
             try:
-                id_part, value_part = line.split(": ", 1)
+                _, value_part = line.split(": ", 1)
             except ValueError:
-                raise ValueError(_msg("resposta_faltando").format(line.split("-")[0]))
+                raise ValueError(_msg("resposta_faltando").format(id_part))
             value = value_part.strip()
             try:
                 value = int(value)
@@ -158,11 +159,15 @@ def main() -> None:
     results_dict = dict(zip(display_names.values(), results))
 
     if LANG == "pt":
-        logger.info("Resultado:")
+        print("*"*20)
+        print("Resultado:")
+        print("*"*20)
     else:
-        logger.info("Results:")
+        print("*"*20)
+        print("Results:")
+        print("*"*20)
     for factor, value in results_dict.items():
-        logger.info(f"{factor}: {value:.3f}")
+        print(f"{factor}: {value:.3f}")
 
     plot_radar_matplotlib(results_dict, LANG)
 

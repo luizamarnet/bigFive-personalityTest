@@ -2,7 +2,7 @@
 
 import numpy as np
 import pandas as pd
-from factor_analysis import perform_factor_analysis
+from src.models.FactorAnalyzer import perform_factor_analysis
 
 
 def test_perform_factor_analysis_returns_model_and_names():
@@ -18,8 +18,9 @@ def test_perform_factor_analysis_returns_model_and_names():
     corr_df = pd.DataFrame(corr)
     column_names = [f"VAR{i}" for i in range(n)]
 
-    fa_model, factor_names = perform_factor_analysis(corr_df, column_names)
+    fa_model, factor_names = perform_factor_analysis(corr_df, column_names, n_factors=5)
 
     assert fa_model is not None
     assert isinstance(factor_names, dict)
     assert len(factor_names) == 5  # N_FACTORS
+    #assert set(factor_names) == set(column_names)

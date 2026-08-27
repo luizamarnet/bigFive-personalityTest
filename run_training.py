@@ -9,10 +9,9 @@ import pandas as pd
 from src.config import (
     DATA_FILE_PATH,
     MODEL_PATH,
-    R_HOME,
-    TEMPO_CURTO,
-    FATOR_IQR,
-    USAR_LIMITE_SUPERIOR,
+    MIN_TIME,
+    IQR_FACTOR,
+    FILTER_LONG_RESPONSE_TIMES,
     TEST_NUMBER_CLUSTERS,
 )
 from src.data.data_loader import load_data
@@ -32,9 +31,9 @@ def load_and_clean_data() -> tuple[pd.DataFrame, pd.DataFrame]:
     df, df_items = clean_by_response_time(
         df,
         df_items,
-        tempo_curto=TEMPO_CURTO,
-        fator=FATOR_IQR,
-        usar_limite_superior=USAR_LIMITE_SUPERIOR,
+        min_response_time=MIN_TIME,
+        iqr_factor=IQR_FACTOR,
+        filter_long_response_times=FILTER_LONG_RESPONSE_TIMES,
     )
     logger.info(f"Number of responses after cleaning: {len(df_items)}")
     return df, df_items
@@ -90,7 +89,7 @@ def save_model(fa_model, factor_names, factor_min, factor_max) -> None:
     logger.info(f"Model saved to {MODEL_PATH}")
 
 
-def run_clustering(df_items_transform: np.ndarray, factor_names: dict) -> None:
+def run_clustering(df_items_transform: np.ndarray, factor_names: dict, k: int) -> None:
     """Perform clustering and visualization."""
     trait_names = {
         "EXT": "Extraversion",
@@ -103,13 +102,12 @@ def run_clustering(df_items_transform: np.ndarray, factor_names: dict) -> None:
         trait_names.get(prefix, prefix) for prefix in factor_names.values()
     ]
 
-    cluster_and_visualize(df_items_transform, factor_display_names)
+    cluster_and_visualize(df_items_transform, factor_display_names, k)
     logger.info("Clustering completed.")
 
 
 def main() -> None:
     """Run the full training pipeline."""
-    os.environ["R_HOME"] = R_HOME
 
     df, df_items = load_and_clean_data()
     pcor_matrix = compute_correlation(df_items)

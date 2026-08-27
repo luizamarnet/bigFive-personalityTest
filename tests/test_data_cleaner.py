@@ -1,7 +1,7 @@
 """Tests for data_cleaner module."""
 
 import pandas as pd
-from data_cleaner import clean_by_response_time
+from src.data.data_cleaner import clean_by_response_time
 
 
 def test_clean_by_response_time_removes_short_times():
@@ -15,7 +15,7 @@ def test_clean_by_response_time_removes_short_times():
     })
 
     cleaned_df, cleaned_items = clean_by_response_time(
-        df, df_items, tempo_curto=2, fator=1.5, usar_limite_superior=False
+        df, df_items, min_response_time=2, iqr_factor=1.5, filter_long_response_times=False
     )
 
     # Only rows with time >= 2 seconds remain

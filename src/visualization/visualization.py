@@ -35,31 +35,34 @@ def plot_heatmap(loadings: np.ndarray, column_names: list[str], factor_names: li
     plt.ylabel("Variables")
     plt.xlabel("Factors")
     plt.tight_layout()
+    plt.savefig("./results/factors_heatmap.png", dpi=300, bbox_inches="tight")
     plt.show()
+    
+    logger.info("Factors heatmap saved to: ./results/factors_heatmap.png")
 
 
 def plot_boxplot(
     valid_times: list[np.ndarray],
     labels: list[str],
-    tempo_curto: int,
-    tempo_longo: float | None,
-    fator: float,
+    min_time: int,
+    max_time: float | None,
+    iqr_factor: float,
 ) -> None:
     """Plot boxplot of response times."""
     flierprops = dict(marker="o", markerfacecolor="red", markersize=3, linestyle="none")
 
     plt.figure(figsize=(14, 6))
-    plt.boxplot(valid_times, labels=labels, showfliers=True, flierprops=flierprops, whis=fator)
-    plt.title(f"Boxplot of response times {tempo_curto} per Big Five item")
+    plt.boxplot(valid_times, tick_labels=labels, showfliers=True, flierprops=flierprops, whis=iqr_factor)
+    plt.title("Boxplot of valid response times per Big Five item")
     plt.xlabel("Time (seconds)")
     plt.ylabel("Items")
-    if tempo_longo is not None:
-        if tempo_longo < 1800:
-            plt.ylim(-1, tempo_longo)
+    '''if max_time is not None:
+        if max_time < 1800:
+            plt.ylim(-1, max_time)
         else:
             plt.ylim(-1, 1800)
     else:
-        plt.ylim(-1, 1800)
+        plt.ylim(-1, 1800)'''
     plt.xticks(rotation=90)
     plt.grid(True)
     plt.tight_layout()

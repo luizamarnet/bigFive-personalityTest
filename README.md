@@ -62,9 +62,17 @@ To run the complete analysis pipeline using the provided dataset:
 python run_training.py
 ```
 
-The script performs the data preprocessing, correlation analysis, factor analysis, and clustering steps.
+The script performs the following steps:
 
-> **Note:** The source code and comments are currently written in Portuguese for personal and future-project reasons.
+1. Data preprocessing
+2. Correlation analysis
+3. Factor analysis
+4. Cluster analysis
+
+Configuration settings can be modified in ./src/config.py, including the dataset path, the minimum response time per question used to filter out responses, the number of clusters used in K-means, the number of factors used in factor analysis, and whether to perform an analysis to determine the optimal number of clusters.
+
+
+<!--  > **Note:** The source code and comments are currently written in Portuguese for personal and future-project reasons. -->
 
 ---
 

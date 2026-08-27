@@ -1,0 +1,4 @@
+Rate each statement from 1 to 5
+    EXT1 - I am the life of the party: 3
+    EXT2 - I don't talk a lot: 2
+    

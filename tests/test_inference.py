@@ -1,12 +1,12 @@
 """Tests for inference module."""
 
 import json
+from run_inference import _load_json, _load_txt
 from pathlib import Path
-import pytest
-from inference import _load_txt, _load_json
 
+def test_load_txt():
 
-def test_load_txt(tmp_path):
+    tmp_path=Path("./tests/")
     content = """Rate each statement from 1 to 5
     EXT1 - I am the life of the party: 3
     EXT2 - I don't talk a lot: 2
@@ -20,7 +20,10 @@ def test_load_txt(tmp_path):
     assert columns == ["EXT1", "EXT2"]
 
 
-def test_load_json(tmp_path):
+def test_load_json():
+
+    tmp_path=Path("./tests/")
+
     data = [
         {"id": "EXT1", "text": "I am the life of the party.", "value": 3},
         {"id": "EXT2", "text": "I don't talk a lot.", "value": 2},
