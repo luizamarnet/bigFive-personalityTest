@@ -66,16 +66,15 @@ def polychoric_correlation(df_items: pd.DataFrame) -> NDArray[np.float64]:
         raise
 
 
-"""
-library(psych)
-pcor <- polychoric(df)$rho
-cat("\\n=== KMO ===\\n")
-kmo_result <- KMO(pcor)
-print(kmo_result$MSA)
-print(kmo_result$MSAi)
-cat("\\n=== Bartlett's Test ===\\n")
-bartlett_result <- cortest.bartlett(pcor, n = N)
-print(bartlett_result$chisq)
-print(bartlett_result$df)
-print(bartlett_result$p.value)
-"""
+
+#library(psych)
+#pcor <- polychoric(df)$rho
+#cat("\\n=== KMO ===\\n")
+#kmo_result <- KMO(pcor)
+#print(kmo_result$MSA)
+#print(kmo_result$MSAi)
+#cat("\\n=== Bartlett's Test ===\\n")
+#bartlett_result <- cortest.bartlett(pcor, n = N)
+#print(bartlett_result$chisq)
+#print(bartlett_result$df)
+#print(bartlett_result$p.value)
