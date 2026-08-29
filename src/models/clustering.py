@@ -15,8 +15,8 @@ def cluster_and_visualize(
 
     Parameters
     ----------
-    data : np.ndarray
-        Normalized factor scores (n_samples, n_factors).
+    data : np.ndarray of size (n_samples, n_factors)
+        Normalized factor scores .
     factor_names : list[str]
         Names of the factors.
     k : int, optional
@@ -24,8 +24,8 @@ def cluster_and_visualize(
 
     Returns
     -------
-    np.ndarray
-        Cluster labels for each sample.
+    clusters: ndarray of shape (n_samples,)
+        Index of the cluster each sample belongs to.
     """
     kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
     clusters = kmeans.fit_predict(data)

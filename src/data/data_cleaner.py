@@ -33,8 +33,10 @@ def clean_by_response_time(
 
     Returns
     -------
-    tuple[pd.DataFrame, pd.DataFrame]
-        Cleaned (df, df_items).
+    df: pd.DataFrame
+        Cleaned df.
+    df_items: pd.DataFrame
+        Cleaned df_items
     """
     time_columns = [
         col for col in df.columns

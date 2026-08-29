@@ -18,8 +18,10 @@ def load_data(data_path: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
 
     Returns
     -------
-    tuple[pd.DataFrame, pd.DataFrame]
-        (full_df, items_df) where items_df contains only the 50 personality columns.
+    df : pd.DataFrame
+        Full dataframe read from the file containing only non empty valid answers
+    df_items : pd.DataFrame
+        similar to df, but contains only the answers for the 50 personality questions.
     """
     try:
         df = pd.read_csv(data_path, sep="\t", index_col=False)

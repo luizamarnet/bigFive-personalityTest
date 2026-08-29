@@ -11,7 +11,7 @@ from numpy.typing import NDArray
 logger = logging.getLogger(__name__)
 
 
-def polychoric_correlation(df_items: pd.DataFrame) -> NDArray[np.float64]:
+def polychoric_correlation(df_items: pd.DataFrame) -> np.ndarray:
     """
     Compute polychoric correlation matrix using R's psych package.
 
@@ -22,7 +22,7 @@ def polychoric_correlation(df_items: pd.DataFrame) -> NDArray[np.float64]:
 
     Returns
     -------
-    pd.DataFrame
+    pcor_matrix: np.ndarray (n_variables, n_variable)
         Polychoric correlation matrix.
     """
     try:

@@ -10,6 +10,22 @@ logger = logging.getLogger(__name__)
 def number_clusters_choice (
     data: np.ndarray) -> int:
 
+    """
+    Runs analysis of number of clusters to use (2 to n_factors).
+    Plot clusters inertia, silhouette_score, davies_bouldin_score
+
+
+    Parameters
+    ----------
+    data np.ndarray of size (n_samples, n_factors)
+        Normalized factor scores .
+
+    Returns:
+    ------------
+    number_clusters_chosen_by_user [int]
+        number of cluster chosen by the user after the analysis 
+    """
+
     logger.info("Testing the number of clusters...")
 
     max_k = K_RANGE
@@ -62,9 +78,9 @@ def number_clusters_choice (
         marker="o"
     )
 
-    axes[0].set_title("Método do Cotovelo")
-    axes[0].set_xlabel("Número de clusters (k)")
-    axes[0].set_ylabel("Inércia")
+    axes[0].set_title("Inertia")
+    axes[0].set_xlabel("Number of clusters (k)")
+    axes[0].set_ylabel("Inertia")
     axes[0].set_xticks(list(k_range))
     axes[0].grid(True)
 
@@ -81,7 +97,7 @@ def number_clusters_choice (
     )
 
     axes[1].set_title("Silhouette Score")
-    axes[1].set_xlabel("Número de clusters (k)")
+    axes[1].set_xlabel("Number of clusters (k)")
     axes[1].set_ylabel("Silhouette")
     axes[1].set_xticks(list(k_range))
     axes[1].grid(True)
@@ -116,7 +132,7 @@ def number_clusters_choice (
     )
 
     axes[2].set_title("Davies-Bouldin Index")
-    axes[2].set_xlabel("Número de clusters (k)")
+    axes[2].set_xlabel("Number of clusters (k)")
     axes[2].set_ylabel("Davies-Bouldin")
     axes[2].set_xticks(list(k_range))
     axes[2].grid(True)
