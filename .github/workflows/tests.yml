@@ -27,7 +27,7 @@ jobs:
         run: |
           conda install --yes \
             numpy pandas matplotlib plotly seaborn scipy scikit-learn joblib pytest \
-            factor-analyzer r-base r-psych rpy2 ruff
+            factor-analyzer r-base r-psych rpy2 ruff pre-commit
 
       - name: Run test suite
         shell: bash -el {0}
@@ -35,3 +35,6 @@ jobs:
 
       - name: Lint
         run: ruff check .
+
+      - name: Security scan
+        run: pre-commit run --all-files

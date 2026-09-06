@@ -1,6 +1,8 @@
 """Tests for inference module."""
 
 import json
+from pathlib import Path
+from typing import Any
 import numpy as np
 import pytest
 from run_inference import _infer, _load_json, _load_txt
@@ -40,7 +42,7 @@ def test_load_json(tmp_path):
     "Rate each statement\nEXT1 - out of range: 0",
     "Rate each statement\nEXT1 - out of range: 6",
 ])
-def test_load_txt_rejects_invalid_answers(tmp_path, content):
+def test_load_txt_rejects_invalid_answers(tmp_path: Path, content: str):
     file_path = tmp_path / "invalid_answers.txt"
     file_path.write_text(content)
 
@@ -55,7 +57,7 @@ def test_load_txt_rejects_invalid_answers(tmp_path, content):
     {"id": "EXT1", "valor": 3.0},
     {"id": "EXT1"},
 ])
-def test_load_json_rejects_invalid_answers(tmp_path, item):
+def test_load_json_rejects_invalid_answers(tmp_path: Path, item: dict[str,str|int]):
     file_path = tmp_path / "invalid_answers.json"
     file_path.write_text(json.dumps([item]))
 
@@ -65,7 +67,7 @@ def test_load_json_rejects_invalid_answers(tmp_path, item):
 
 def test_infer_normalizes_factor_scores():
     class StubFactorModel:
-        def transform(self, dataframe):
+        def transform(self, dataframe: dict[str,Any]):
             assert list(dataframe.columns) == ["EXT1", "EXT2"]
             return np.array([[3.0, 8.0]])
 

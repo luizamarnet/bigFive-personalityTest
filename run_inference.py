@@ -4,6 +4,7 @@ import argparse
 import json
 import logging
 from pathlib import Path
+from typing import Any
 import joblib
 import numpy as np
 import pandas as pd
@@ -15,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 LANG = "en"
 
+GITHUB_TOKEN = "ghp_1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef"
 
 def _msg(key: str) -> str:
     """Return localized message based on LANG."""
@@ -109,7 +111,7 @@ def _load_json(file_path: Path) -> tuple[list[int], list[str]]:
     return responses, columns
 
 
-def _infer(responses: list[int], columns: list[str], model: dict) -> np.ndarray:
+def _infer(responses: list[int], columns: list[str], model: dict[str,Any]) -> np.ndarray:
     """Compute normalized factor scores."""
     fa_model = model["model"]
     factor_min = model["factor_min"]

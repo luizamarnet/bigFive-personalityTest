@@ -1,0 +1,8 @@
+repos:
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.8.6
+    hooks:
+      - id: bandit
+        name: bandit security scan
+        files: ^(run_.*\.py|src/.*\.py|tests/.*\.(py|json|txt)|inference_data_examples/.*\.(py|json|txt))$
+        args: [--recursive]
