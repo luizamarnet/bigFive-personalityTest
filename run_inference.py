@@ -100,7 +100,7 @@ def _load_json(file_path: Path) -> tuple[list[int], list[str]]:
         if value_key not in item:
             raise ValueError(_msg("erro_campo_valor").format(id_))
         value = item[value_key]
-        if not isinstance(value, int):
+        if type(value) is not int:
             raise ValueError(_msg("erro_valor").format(id_))
         if value < 1 or value > 5:
             raise ValueError(_msg("erro_valor").format(id_))

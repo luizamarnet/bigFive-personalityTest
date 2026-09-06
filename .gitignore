@@ -41,7 +41,6 @@ firebase.json
 public/*
 functions/*
 .firebase/*
-.github/*
 bigfive-site/*
 .aider*
 .env

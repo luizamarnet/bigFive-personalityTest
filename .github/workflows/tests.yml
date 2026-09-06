@@ -1,0 +1,34 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Conda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: bigfive-ci
+          auto-activate-base: false
+          channels: conda-forge
+          channel-priority: strict
+          miniforge-version: latest
+          python-version: "3.10"
+
+      - name: Install project dependencies
+        shell: bash -el {0}
+        run: |
+          conda install --yes \
+            numpy pandas matplotlib scipy scikit-learn joblib pytest \
+            factor-analyzer r-base r-psych rpy2
+
+      - name: Run test suite
+        shell: bash -el {0}
+        run: pytest
