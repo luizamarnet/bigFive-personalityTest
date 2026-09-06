@@ -26,7 +26,7 @@ jobs:
         shell: bash -el {0}
         run: |
           conda install --yes \
-            numpy pandas matplotlib scipy scikit-learn joblib pytest \
+            numpy pandas matplotlib plotly seaborn scipy scikit-learn joblib pytest \
             factor-analyzer r-base r-psych rpy2
 
       - name: Run test suite
