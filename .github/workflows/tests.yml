@@ -31,10 +31,10 @@ jobs:
 
       - name: Run test suite
         shell: bash -el {0}
-        run: pytest
+        run: conda run -n bigfive-ci pytest
 
       - name: Lint
-        run: ruff check .
+        run: conda run -n bigfive-ci ruff check .
 
       - name: Security scan
-        run: pre-commit run --all-files
+        run: conda run -n bigfive-ci pre-commit run --all-files
