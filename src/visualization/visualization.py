@@ -72,7 +72,7 @@ def plot_boxplot(
 
 def plot_radar_interactive(centroids: np.ndarray, factor_names: list[str]) -> None:
     """Plot interactive radar chart using Plotly."""
-    n_factors = centroids.shape[1]
+    _n_factors = centroids.shape[1]
     radar_labels = factor_names + [factor_names[0]]
 
     fig = go.Figure()

@@ -4,7 +4,7 @@ import json
 import numpy as np
 import pytest
 from run_inference import _infer, _load_json, _load_txt
-from pathlib import Path
+
 
 def test_load_txt(tmp_path):
     content = """Rate each statement from 1 to 5

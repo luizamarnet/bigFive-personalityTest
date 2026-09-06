@@ -6,7 +6,6 @@ import numpy as np
 from rpy2.robjects import pandas2ri
 from rpy2.robjects.conversion import localconverter
 import pandas as pd
-from numpy.typing import NDArray
 
 logger = logging.getLogger(__name__)
 

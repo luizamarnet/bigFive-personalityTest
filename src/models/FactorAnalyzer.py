@@ -6,7 +6,6 @@ from factor_analyzer.factor_analyzer import FactorAnalyzer
 from src.config import N_FACTORS
 from src.visualization.visualization import plot_scree, plot_heatmap
 import logging
-from numpy.typing import NDArray
 
 logger = logging.getLogger(__name__)
 

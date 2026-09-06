@@ -1,10 +1,10 @@
 """Training pipeline for the Big Five personality model."""
 
-import os
 import logging
 import joblib
 import numpy as np
 import pandas as pd
+
 
 from src.config import (
     DATA_FILE_PATH,

@@ -76,7 +76,7 @@ def clean_by_response_time(
         Q1 = times.quantile(0.25)
         Q3 = times.quantile(0.75)
         IQR = Q3 - Q1
-        lower_limit = Q1 - iqr_factor * IQR
+        _lower_limit = Q1 - iqr_factor * IQR
         upper_limit = Q3 + iqr_factor * IQR
 
         if filter_long_response_times:

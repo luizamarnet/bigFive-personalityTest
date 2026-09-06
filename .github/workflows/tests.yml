@@ -32,3 +32,6 @@ jobs:
       - name: Run test suite
         shell: bash -el {0}
         run: pytest
+
+      - name: Lint
+        run: ruff check .
