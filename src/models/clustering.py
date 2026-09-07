@@ -3,7 +3,8 @@
 import joblib
 import numpy as np
 from sklearn.cluster import KMeans
-from src.config import OPTIMAL_K, KMEANS_MODEL_PATH
+
+from src.config import KMEANS_MODEL_PATH, OPTIMAL_K
 from src.visualization.visualization import plot_radar_interactive
 
 

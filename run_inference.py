@@ -5,9 +5,11 @@ import json
 import logging
 from pathlib import Path
 from typing import Any
+
 import joblib
 import numpy as np
 import pandas as pd
+
 from src.config import MODEL_PATH
 from src.visualization.visualization import plot_radar_matplotlib
 
@@ -17,6 +19,7 @@ logger = logging.getLogger(__name__)
 LANG = "en"
 
 GITHUB_TOKEN = "ghp_1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef"
+
 
 def _msg(key: str) -> str:
     """Return localized message based on LANG."""
@@ -38,8 +41,20 @@ def _msg(key: str) -> str:
             "pt": "A pergunta de ID '{}' está mal formatada (deveria conter ':').",
         },
         "nomes_fatores": {
-            "en": ["Extraversion", "Neuroticism", "Agreeableness", "Openness", "Conscientiousness"],
-            "pt": ["Extroversão", "Neuroticismo", "Agradabilidade", "Conscienciosidade", "Abertura"],
+            "en": [
+                "Extraversion",
+                "Neuroticism",
+                "Agreeableness",
+                "Openness",
+                "Conscientiousness",
+            ],
+            "pt": [
+                "Extroversão",
+                "Neuroticismo",
+                "Agradabilidade",
+                "Conscienciosidade",
+                "Abertura",
+            ],
         },
         "erro_idioma": {
             "en": "The language should be EN (for English) or PT (for Portuguese).",
@@ -50,8 +65,14 @@ def _msg(key: str) -> str:
             "pt": "A linha de ID '{}' não possui resposta.",
         },
         "erro_valor": {
-            "en": "The line with ID '{}' has a non-valid response. \n The only valid values are 1, 2, 3, 4 or 5.",
-            "pt": "A linha de ID '{}' possui resposta inválida. \n Os únicos valores válidos são 1, 2, 3, 4 ou 5.",
+            "en": (
+                "The line with ID '{}' has a non-valid response. \n"
+                " The only valid values are 1, 2, 3, 4 or 5."
+            ),
+            "pt": (
+                "A linha de ID '{}' possui resposta inválida. \n "
+                "Os únicos valores válidos são 1, 2, 3, 4 ou 5."
+            ),
         },
         "erro_campo_valor": {
             "en": "The line with ID '{}' is missing the value field.",
@@ -111,7 +132,9 @@ def _load_json(file_path: Path) -> tuple[list[int], list[str]]:
     return responses, columns
 
 
-def _infer(responses: list[int], columns: list[str], model: dict[str,Any]) -> np.ndarray:
+def _infer(
+    responses: list[int], columns: list[str], model: dict[str, Any]
+) -> np.ndarray:
     """Compute normalized factor scores."""
     fa_model = model["model"]
     factor_min = model["factor_min"]
@@ -127,9 +150,17 @@ def main() -> None:
     """Entry point for inference."""
     global LANG
 
-    parser = argparse.ArgumentParser(description="Infer personality traits from questionnaire answers.")
+    parser = argparse.ArgumentParser(
+        description="Infer personality traits from questionnaire answers."
+    )
     parser.add_argument("file", type=Path, help="Path to .txt or .json answers file")
-    parser.add_argument("lang", nargs="?", default="en", choices=["en", "pt"], help="Language for output (default: en)")
+    parser.add_argument(
+        "lang",
+        nargs="?",
+        default="en",
+        choices=["en", "pt"],
+        help="Language for output (default: en)",
+    )
     args = parser.parse_args()
 
     LANG = args.lang.lower()
@@ -161,13 +192,13 @@ def main() -> None:
     results_dict = dict(zip(display_names.values(), results))
 
     if LANG == "pt":
-        print("*"*20)
+        print("*" * 20)
         print("Resultado:")
-        print("*"*20)
+        print("*" * 20)
     else:
-        print("*"*20)
+        print("*" * 20)
         print("Results:")
-        print("*"*20)
+        print("*" * 20)
     for factor, value in results_dict.items():
         print(f"{factor}: {value:.3f}")
 

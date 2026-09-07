@@ -1,24 +1,24 @@
 """Training pipeline for the Big Five personality model."""
 
 import logging
+
 import joblib
 import numpy as np
 import pandas as pd
 
-
 from src.config import (
     DATA_FILE_PATH,
-    MODEL_PATH,
-    MIN_TIME,
-    IQR_FACTOR,
     FILTER_LONG_RESPONSE_TIMES,
+    IQR_FACTOR,
+    MIN_TIME,
+    MODEL_PATH,
     TEST_NUMBER_CLUSTERS,
 )
-from src.data.data_loader import load_data
-from src.data.data_cleaner import clean_by_response_time
 from src.data.correlation import polychoric_correlation
-from src.models.FactorAnalyzer import perform_factor_analysis
+from src.data.data_cleaner import clean_by_response_time
+from src.data.data_loader import load_data
 from src.models.clustering import cluster_and_visualize
+from src.models.FactorAnalyzer import perform_factor_analysis
 from src.models.number_clusters_choice import number_clusters_choice
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -52,7 +52,9 @@ def fit_factor_analysis(pcor_matrix: pd.DataFrame, column_names: list[str]):
     return fa_model, factor_names
 
 
-def compute_normalization_bounds(fa_model, df_items: pd.DataFrame) -> tuple[np.ndarray, np.ndarray]:
+def compute_normalization_bounds(
+    fa_model, df_items: pd.DataFrame
+) -> tuple[np.ndarray, np.ndarray]:
     """Compute min and max factor scores for normalization."""
     B = np.linalg.pinv(df_items) @ fa_model.transform(df_items)
 
@@ -112,8 +114,8 @@ def main() -> None:
     df, df_items = load_and_clean_data()
     pcor_matrix = compute_correlation(df_items)
     fa_model, factor_names = fit_factor_analysis(pcor_matrix, df_items.columns)
-    fa_model.mean_ = 0#mean_.values
-    fa_model.std_ = 1#std_.values
+    fa_model.mean_ = 0  # mean_.values
+    fa_model.std_ = 1  # std_.values
 
     factor_min, factor_max = compute_normalization_bounds(fa_model, df_items)
 
@@ -123,9 +125,9 @@ def main() -> None:
     save_model(fa_model, factor_names, factor_min, factor_max)
 
     if TEST_NUMBER_CLUSTERS:
-        n_clusters=number_clusters_choice(df_items_transform)
-        run_clustering(df_items_transform, factor_names,k=n_clusters)
-    else: 
+        n_clusters = number_clusters_choice(df_items_transform)
+        run_clustering(df_items_transform, factor_names, k=n_clusters)
+    else:
         run_clustering(df_items_transform, factor_names)
 
 

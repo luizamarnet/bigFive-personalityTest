@@ -1,7 +1,8 @@
 """Data cleaning based on response time."""
 
 import pandas as pd
-from src.config import MIN_TIME, IQR_FACTOR, FILTER_LONG_RESPONSE_TIMES
+
+from src.config import FILTER_LONG_RESPONSE_TIMES, IQR_FACTOR, MIN_TIME
 from src.visualization.visualization import plot_boxplot
 
 
@@ -39,7 +40,8 @@ def clean_by_response_time(
         Cleaned df_items
     """
     time_columns = [
-        col for col in df.columns
+        col
+        for col in df.columns
         if (
             col.startswith("EXT")
             or col.startswith("EST")
@@ -71,8 +73,6 @@ def clean_by_response_time(
         df = df.drop(index=discarded_indices, errors="ignore")
         df_items = df_items.drop(index=discarded_indices, errors="ignore")
 
-        
-
         Q1 = times.quantile(0.25)
         Q3 = times.quantile(0.75)
         IQR = Q3 - Q1
@@ -80,9 +80,7 @@ def clean_by_response_time(
         upper_limit = Q3 + iqr_factor * IQR
 
         if filter_long_response_times:
-            long_response_indices = times[
-                times > upper_limit
-            ].index
+            long_response_indices = times[times > upper_limit].index
 
             df = df.drop(index=long_response_indices, errors="ignore")
             df_items = df_items.drop(

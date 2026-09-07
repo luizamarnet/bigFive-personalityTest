@@ -2,7 +2,8 @@
 
 import numpy as np
 import pandas as pd
-from src.models.FactorAnalyzer import perform_factor_analysis
+
+from src.models.FactorAnalyzer import perform_factor_analysis  # type:ignore
 
 
 def test_perform_factor_analysis_returns_model_and_names():
@@ -23,4 +24,4 @@ def test_perform_factor_analysis_returns_model_and_names():
     assert fa_model is not None
     assert isinstance(factor_names, dict)
     assert len(factor_names) == 5  # N_FACTORS
-    #assert set(factor_names) == set(column_names)
+    # assert set(factor_names) == set(column_names)

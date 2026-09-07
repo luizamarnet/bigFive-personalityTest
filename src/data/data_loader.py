@@ -1,7 +1,8 @@
 """Data loading utilities."""
 
-from pathlib import Path
 import logging
+from pathlib import Path
+
 import pandas as pd
 
 logger = logging.getLogger(__name__)
@@ -48,7 +49,8 @@ def load_data(data_path: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
 
     # Select the 50 personality items
     columns = [
-        col for col in df.columns
+        col
+        for col in df.columns
         if (
             col.startswith("EXT")
             or col.startswith("EST")
@@ -64,7 +66,7 @@ def load_data(data_path: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
             "The dataset has no rows with valid data. "
             "The data must contain integers with values 1, 2, 3, 4, or 5."
         )
-        
+
     df_items = df[columns]
 
     logger.info(f"Number of variables: {len(df.columns)}")
