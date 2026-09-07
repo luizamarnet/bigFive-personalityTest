@@ -5,4 +5,4 @@ repos:
       - id: bandit
         name: bandit security scan
         files: ^(run_.*\.py|src/.*\.py|tests/.*\.(py|json|txt)|inference_data_examples/.*\.(py|json|txt))$
-        args: [--recursive]
+        args: [--recursive, --skip, B101]

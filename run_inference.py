@@ -18,8 +18,6 @@ logger = logging.getLogger(__name__)
 
 LANG = "en"
 
-GITHUB_TOKEN = "ghp_1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef"
-
 
 def _msg(key: str) -> str:
     """Return localized message based on LANG."""
