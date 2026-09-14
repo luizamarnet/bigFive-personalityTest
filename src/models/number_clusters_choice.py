@@ -10,7 +10,7 @@ from src.config import K_RANGE
 logger = logging.getLogger(__name__)
 
 
-def number_clusters_choice(data: np.ndarray) -> int:
+def number_clusters_choice(data: np.ndarray, max_k: int = K_RANGE) -> int:
     """
     Runs analysis of number of clusters to use (2 to n_factors).
     Plot clusters inertia, silhouette_score, davies_bouldin_score
@@ -29,7 +29,6 @@ def number_clusters_choice(data: np.ndarray) -> int:
 
     logger.info("Testing the number of clusters...")
 
-    max_k = K_RANGE
     k_range = range(2, max_k + 1)
     inertias = []
     silhouette_scores = []

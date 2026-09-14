@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  test:
+  lint-static-checks:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,19 +22,96 @@ jobs:
           miniforge-version: latest
           python-version: "3.10"
 
-      - name: Install project dependencies
+      - name: Install dependencies
         shell: bash -el {0}
         run: |
           conda install --yes \
-            numpy pandas matplotlib plotly seaborn scipy scikit-learn joblib pytest \
-            factor-analyzer r-base r-psych rpy2 ruff pre-commit
+            numpy pandas matplotlib plotly seaborn scipy scikit-learn \
+            joblib pytest factor-analyzer r-base r-psych rpy2 \
+            ruff pre-commit
 
-      - name: Run test suite
+      - name: Run tests
         shell: bash -el {0}
-        run: conda run -n bigfive-ci pytest
+        run: pytest
 
-      - name: Lint
-        run: conda run -n bigfive-ci ruff check .
+      - name: Run Ruff
+        shell: bash -el {0}
+        run: ruff check .
 
-      - name: Security scan
-        run: conda run -n bigfive-ci pre-commit run --all-files
+      - name: Run pre-commit
+        shell: bash -el {0}
+        run: pre-commit run --all-files
+
+
+  tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Conda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: bigfive-ci
+          auto-activate-base: false
+          channels: conda-forge
+          channel-priority: strict
+          miniforge-version: latest
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        shell: bash -el {0}
+        run: |
+          conda install --yes \
+            numpy pandas matplotlib plotly seaborn scipy scikit-learn \
+            joblib pytest factor-analyzer r-base r-psych rpy2
+
+      - name: Run tests
+        shell: bash -el {0}
+        run: pytest
+
+
+  build:
+    runs-on: ubuntu-latest
+
+    needs:
+      - lint-static-checks
+      - tests
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Conda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: bigfive-ci
+          auto-activate-base: false
+          channels: conda-forge
+          channel-priority: strict
+          miniforge-version: latest
+          python-version: "3.10"
+
+      - name: Install build dependencies
+        shell: bash -el {0}
+        run: |
+          conda install --yes \
+            numpy pandas matplotlib plotly seaborn scipy scikit-learn \
+            joblib factor-analyzer r-base r-psych rpy2 \
+            build
+
+      - name: Build package
+        shell: bash -el {0}
+        run: python -m build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: bigfive-package-${{ github.sha }}
+          path: dist/

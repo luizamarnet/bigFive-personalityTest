@@ -21,5 +21,5 @@ N_FACTORS = 5
 OPTIMAL_K = 5
 K_RANGE = 20  # max number of clusters to test
 TEST_NUMBER_CLUSTERS = (
-    True  # Whether to test the number of clusters to choose before clusterization
+    False  # Whether to test the number of clusters to choose before clusterization
 )

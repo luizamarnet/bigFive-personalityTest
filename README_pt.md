@@ -59,7 +59,7 @@ O algoritmo **K-Means** é aplicado às representações dos traços de personal
 Para executar o pipeline completo de análise utilizando o conjunto de dados fornecido:
 
 ```bash
-python run_training.py
+python -m src.scripts.run_training.py
 ```
 
 O script executa as etapas de pré-processamento dos dados, cálculo da matriz de correlação, análise fatorial e clustering.
@@ -68,14 +68,14 @@ O script executa as etapas de pré-processamento dos dados, cálculo da matriz d
 
 ## Inferindo os Resultados de Personalidade Localmente
 
-Você pode utilizar o `run_inference.py` para calcular os resultados dos traços de personalidade a partir das respostas ao questionário.
+Você pode utilizar o `/src/scripts/run_inference.py` para calcular os resultados dos traços de personalidade a partir das respostas ao questionário.
 
 O script aceita arquivos nos formatos **`.txt`** e **`.json`**.
 
 ### Uso
 
 ```bash
-python run_inference.py <arquivo> [idioma]
+python -m src.scripts.run_inference <arquivo> [idioma]
 ```
 
 Onde:
@@ -152,7 +152,7 @@ Exemplo:
 ### Exemplo
 
 ```bash
-python run_inference.py questionnaire_answers_test.json pt
+python -m src.scripts.run_inference.py questionnaire_answers_test.json pt
 ```
 
 O script irá:

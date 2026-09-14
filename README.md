@@ -59,7 +59,7 @@ K-means clustering is applied to the resulting personality trait representations
 To run the complete analysis pipeline using the provided dataset:
 
 ```bash
-python run_training.py
+python -m src.scripts.run_training
 ```
 
 The script performs the following steps:
@@ -78,14 +78,14 @@ Configuration settings can be modified in ./src/config.py, including the dataset
 
 ## Inferring Personality Results Locally
 
-You can use `run_inference.py` to calculate personality trait scores from questionnaire answers.
+You can use `/src/scripts/run_inference.py` to calculate personality trait scores from questionnaire answers.
 
 The script supports both **`.txt`** and **`.json`** input formats.
 
 ### Usage
 
 ```bash
-python run_inference.py <file> [lang]
+python -m src.scripts.run_inference <file> [lang]
 ```
 
 Where:
@@ -162,7 +162,7 @@ Example:
 ### Example
 
 ```bash
-python run_inference.py questionnaire_answers_test.json en
+python -m src.scripts.run_inference questionnaire_answers_test.json en
 ```
 
 The script will:
