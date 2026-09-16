@@ -3,7 +3,7 @@
 import numpy as np
 import pandas as pd
 
-from src.models.FactorAnalyzer import perform_factor_analysis  # type:ignore
+from src.models.FactorAnalyzer import perform_factor_analysis  # type: ignore
 
 
 def test_perform_factor_analysis_returns_model_and_names():

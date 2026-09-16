@@ -35,14 +35,12 @@ def polychoric_correlation(
         n = df_items.shape[0]
         ro.globalenv["N"] = ro.IntVector([n])
 
-        ro.r(
-            """
+        ro.r("""
             library(psych)
             pcor <- polychoric(df)$rho
             kmo_result <- KMO(pcor)
             bartlett_result <- cortest.bartlett(pcor, n = N)
-            """
-        )
+            """)
 
         with localconverter(ro.default_converter + pandas2ri.converter):
             pcor_matrix = ro.conversion.get_conversion().rpy2py(ro.r("pcor"))

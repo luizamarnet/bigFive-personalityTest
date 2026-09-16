@@ -16,8 +16,8 @@ from src.config import (
     MIN_TIME,
     MODEL_PATH,
     N_FACTORS,
-    TEST_NUMBER_CLUSTERS,
     OPTIMAL_K,
+    TEST_NUMBER_CLUSTERS,
 )
 from src.data.correlation import polychoric_correlation
 from src.data.data_cleaner import clean_by_response_time
@@ -91,7 +91,9 @@ def compute_normalization_bounds(
     return factor_min, factor_max
 
 
-def save_model(fa_model, factor_names, factor_min, factor_max, model_path: Path) -> None:
+def save_model(
+    fa_model, factor_names, factor_min, factor_max, model_path: Path
+) -> None:
     """Save the trained model to disk."""
     model_to_save = {
         "model": fa_model,
@@ -122,7 +124,9 @@ def run_clustering(df_items_transform: np.ndarray, factor_names: dict, k: int) -
 
 def parse_args() -> argparse.Namespace:
     """Parse training settings, defaulting to values from ``src.config``."""
-    parser = argparse.ArgumentParser(description="Train the Big Five personality model.")
+    parser = argparse.ArgumentParser(
+        description="Train the Big Five personality model."
+    )
     parser.add_argument(
         "--data-file-path",
         type=Path,

@@ -8,6 +8,30 @@ version = "0.1.0"
 description = "Big Five personality factor analysis and inference"
 requires-python = ">=3.10"
 
+dependencies = [
+    "numpy",
+    "pandas",
+    "scikit-learn",
+    "joblib",
+    "matplotlib",
+    "plotly", 
+    "seaborn", 
+    "scipy", 
+    "factor-analyzer", 
+    "rpy2",
+]
+
+[project.scripts]
+train_model = "run_training:main"
+inference = "run_inference:main"
+
+[tool.setuptools]
+py-modules = ["run_training", "run_inference"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
@@ -23,3 +47,4 @@ target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
+
