@@ -104,7 +104,7 @@ jobs:
           conda install --yes \
             numpy pandas matplotlib plotly seaborn scipy scikit-learn==1.5.2 \
             joblib pytest factor-analyzer==0.5.1 r-base r-psych rpy2 \
-            build
+          python -m pip install build
 
       - name: Build package
         shell: bash -el {0}
