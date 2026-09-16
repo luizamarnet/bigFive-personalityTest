@@ -26,8 +26,8 @@ jobs:
         shell: bash -el {0}
         run: |
           conda install --yes \
-            numpy pandas matplotlib plotly seaborn scipy scikit-learn \
-            joblib pytest factor-analyzer r-base r-psych rpy2 \
+            numpy pandas matplotlib plotly seaborn scipy scikit-learn==1.5.2 \
+            joblib pytest factor-analyzer==0.5.1 r-base r-psych rpy2 \
             ruff pre-commit
 
       - name: Run tests
@@ -69,8 +69,8 @@ jobs:
         shell: bash -el {0}
         run: |
           conda install --yes \
-            numpy pandas matplotlib plotly seaborn scipy scikit-learn \
-            joblib pytest factor-analyzer r-base r-psych rpy2
+            numpy pandas matplotlib plotly seaborn scipy scikit-learn==1.5.2 \
+            joblib pytest factor-analyzer==0.5.1 r-base r-psych rpy2 \
 
       - name: Run tests
         shell: bash -el {0}
@@ -102,8 +102,8 @@ jobs:
         shell: bash -el {0}
         run: |
           conda install --yes \
-            numpy pandas matplotlib plotly seaborn scipy scikit-learn \
-            joblib factor-analyzer r-base r-psych rpy2 \
+            numpy pandas matplotlib plotly seaborn scipy scikit-learn==1.5.2 \
+            joblib pytest factor-analyzer==0.5.1 r-base r-psych rpy2 \
             build
 
       - name: Build package
