@@ -83,15 +83,19 @@ jobs:
     needs:
       - lint-static-checks
       - tests
+
     permissions:
       contents: write
       id-token: write
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: main
           token: ${{ secrets.GH_PAT }}
+
       - name: Set up Conda
         uses: conda-incubator/setup-miniconda@v3
         with:
@@ -107,11 +111,9 @@ jobs:
         run: |
           conda install --yes \
             numpy pandas matplotlib plotly seaborn scipy scikit-learn==1.5.2 \
-            joblib pytest factor-analyzer==0.5.1 r-base r-psych rpy2 
-            
-            
-          python -m pip install python-semantic-release
-          python -m semantic_release --version
+            joblib pytest factor-analyzer==0.5.1 r-base r-psych rpy2
+
+          python -m pip install build python-semantic-release
 
       - name: Create release
         shell: bash -el {0}
@@ -119,4 +121,20 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           python -m semantic_release version
+
+      - name: Build wheel
+        shell: bash -el {0}
+        run: |
+          python -m build
+
+      - name: Check build artifacts
+        shell: bash -el {0}
+        run: |
+          ls -lh dist/
+
+      - name: Publish release
+        shell: bash -el {0}
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
           python -m semantic_release publish
