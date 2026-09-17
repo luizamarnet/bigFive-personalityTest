@@ -70,7 +70,7 @@ jobs:
         run: |
           conda install --yes \
             numpy pandas matplotlib plotly seaborn scipy scikit-learn==1.5.2 \
-            joblib pytest factor-analyzer==0.5.1 r-base r-psych rpy2 \
+            joblib pytest factor-analyzer==0.5.1 r-base r-psych rpy2 
 
       - name: Run tests
         shell: bash -el {0}
