@@ -1,0 +1,62 @@
+name: Publish to Test PyPi
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Conda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: bigfive-ci
+          auto-activate-base: false
+          channels: conda-forge
+          channel-priority: strict
+          miniforge-version: latest
+          python-version: "3.10"
+
+      - name: Install dependencies
+        shell: bash -el {0}
+        run: |
+          conda install --yes \
+            numpy pandas matplotlib plotly seaborn scipy scikit-learn==1.5.2 \
+            joblib pytest factor-analyzer==0.5.1 r-base r-psych rpy2 \
+          python -m pip install build
+
+      - name: Build package
+        run: |
+          python -m build
+      - name: Upload build artifects
+        uses: actitions/upload-artifact@v4
+        with:
+          name: bigfive-personality-test-${{ github.sha }}
+          path: dist/
+  publish-testpypi:
+    needs: build 
+    runs-on: ubunto-latest
+    environment: development
+    permissions: 
+      id-token: write
+      contents: read
+    steps: 
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: bigfive-personality-test-${{ github.sha }}
+          path: dist/
+      - name: Publish to testpypi
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy
+          skip-existing: true
+          verbose: true
+   
+            
