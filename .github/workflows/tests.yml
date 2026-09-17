@@ -110,7 +110,7 @@ jobs:
             joblib pytest factor-analyzer==0.5.1 r-base r-psych rpy2 
             
             
-          pip install python-semantic-release
+          python -m pip install python-semantic-release
 
       - name: Create release
         env:
