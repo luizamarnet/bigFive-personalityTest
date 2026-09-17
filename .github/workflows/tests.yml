@@ -77,17 +77,21 @@ jobs:
         run: pytest
 
 
-  build:
+  release:
     runs-on: ubuntu-latest
 
     needs:
       - lint-static-checks
       - tests
-
+    permissions:
+      contents: write
+      id-token: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-
+        with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up Conda
         uses: conda-incubator/setup-miniconda@v3
         with:
@@ -105,14 +109,12 @@ jobs:
             numpy pandas matplotlib plotly seaborn scipy scikit-learn==1.5.2 \
             joblib pytest factor-analyzer==0.5.1 r-base r-psych rpy2 
             
-          python -m pip install build
+            
+          pip install python-semantic-release
 
-      - name: Build package
-        shell: bash -el {0}
-        run: python -m build
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: bigfive-package-${{ github.sha }}
-          path: dist/
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUBH_TOKEN }}
+          run: |
+            semantic-release version
+            semantic-release publish
