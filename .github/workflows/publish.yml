@@ -1,4 +1,4 @@
-name: Publish to Test PyPi
+name: Publish to Test PyPI
 
 on:
   release:
@@ -6,58 +6,52 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Conda
-        uses: conda-incubator/setup-miniconda@v3
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          activate-environment: bigfive-ci
-          auto-activate-base: false
-          channels: conda-forge
-          channel-priority: strict
-          miniforge-version: latest
           python-version: "3.10"
 
-      - name: Install dependencies
-        shell: bash -el {0}
+      - name: Install build dependencies
         run: |
-          conda install --yes \
-            numpy pandas matplotlib plotly seaborn scipy scikit-learn==1.5.2 \
-            joblib pytest factor-analyzer==0.5.1 r-base r-psych rpy2 \
+          python -m pip install --upgrade pip
           python -m pip install build
 
       - name: Build package
-        shell: bash -el {0}
         run: |
           python -m build
-      - name: Upload build artifects
-        uses: actitions/upload-artifact@v4
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
         with:
           name: bigfive-personality-test-${{ github.sha }}
           path: dist/
+
   publish-testpypi:
-    needs: build 
-    runs-on: ubunto-latest
-    environment: development
-    permissions: 
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+      url: https://test.pypi.org/p/bigfive-personality-test
+    permissions:
       id-token: write
       contents: read
-    steps: 
+
+    steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: bigfive-personality-test-${{ github.sha }}
           path: dist/
-      - name: Publish to testpypi
+
+      - name: Publish to TestPyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
           skip-existing: true
           verbose: true
-   
-            
