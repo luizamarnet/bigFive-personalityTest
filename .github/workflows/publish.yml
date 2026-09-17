@@ -32,6 +32,7 @@ jobs:
           python -m pip install build
 
       - name: Build package
+        shell: bash -el {0}
         run: |
           python -m build
       - name: Upload build artifects
@@ -55,7 +56,7 @@ jobs:
       - name: Publish to testpypi
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          repository-url: https://test.pypi.org/legacy
+          repository-url: https://test.pypi.org/legacy/
           skip-existing: true
           verbose: true
    
