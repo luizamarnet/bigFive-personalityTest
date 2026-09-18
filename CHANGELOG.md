@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.1.5 (2026-09-18)
+
+### Bug Fixes
+
+- Add description to test PyPI
+  ([`ec741f9`](https://github.com/luizamarnet/bigFive-personalityTest/commit/ec741f94701cbe149a3f60117f2f76346a372dd0))
+
+
 ## v1.1.4 (2026-09-17)
 
 ### Bug Fixes
