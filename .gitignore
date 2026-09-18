@@ -1,7 +1,6 @@
 # Python
 __pycache__/
 *.py[cod]
-*.pkl
 *.joblib
 
 # Jupyter Notebooks checkpoints
@@ -29,7 +28,6 @@ Thumbs.db
 *.pdf
 *.svg
 *.eps
-*.pkl
 
 # Ignora arquivos por tipo
 
