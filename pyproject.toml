@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bigfive-personality-test"
-version = "1.1.4"
+version = "1.1.5"
 description = "Big Five personality factor analysis and inference"
 readme = "README_testPyPI.md"
 requires-python = ">=3.10"
