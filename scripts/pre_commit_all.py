@@ -3,7 +3,6 @@ import re
 import subprocess
 import sys
 
-
 FILE_PATTERN = re.compile(
     r"^(run_.*\.py|src/.*\.py|tests/.*\.(py|json|txt)|"
     r"inference_data_examples/.*\.(py|json|txt))$"
