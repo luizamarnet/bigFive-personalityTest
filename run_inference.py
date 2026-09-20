@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 LANG = "en"
 
 
+
 def _msg(key: str) -> str:
     """Return localized message based on LANG."""
     messages = {

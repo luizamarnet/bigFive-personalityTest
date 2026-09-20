@@ -30,6 +30,7 @@ Thumbs.db
 *.eps
 
 # Ignora arquivos por tipo
+*.log
 
 # Ignora arquivos específico
 .firebaserc
@@ -42,3 +43,6 @@ functions/*
 bigfive-site/*
 .aider*
 .env
+bigfive_personality_test.egg-info/*
+dist/*
+src/bigfive_personality_test.egg-info/*
