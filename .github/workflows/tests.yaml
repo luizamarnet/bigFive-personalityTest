@@ -116,23 +116,15 @@ jobs:
           python -m pip install build python-semantic-release
 
       - name: Create release
+        id: release
         shell: bash -el {0}
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           python -m semantic_release version
 
-      - name: Build wheel
-        shell: bash -el {0}
-        run: |
-          python -m build
-
-      - name: Check build artifacts
-        shell: bash -el {0}
-        run: |
-          ls -lh dist/
-
       - name: Publish release
+        if: steps.release.outputs.released == 'true'
         shell: bash -el {0}
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
